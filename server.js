@@ -452,8 +452,8 @@ app.get('/welcome', (req, res) => {
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
     ${BASE_STYLE}
-    body{background:#0a0a0a;padding:24px}
-    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px}
+    body{background:#0a0a0a;padding:0;margin:0;overflow-y:auto}
+    .overlay{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px}
     .modal{background:#111;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:48px 40px;max-width:480px;width:100%;text-align:center;animation:modalIn .4s ease}
     @keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
     .w-brand{font-size:.55rem;font-weight:800;text-transform:uppercase;letter-spacing:5px;color:rgba(255,255,255,.25);margin-bottom:24px}
@@ -465,6 +465,18 @@ app.get('/welcome', (req, res) => {
     .w-legal{font-size:.6rem;color:rgba(255,255,255,.2);line-height:1.7;margin-bottom:28px;letter-spacing:.3px}
     .w-btn{display:inline-block;background:#fff;color:#0a0a0a;border:none;border-radius:10px;padding:14px 40px;font-family:inherit;font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:opacity .2s}
     .w-btn:hover{opacity:.9}
+    @media(max-width:500px){
+      .overlay{padding:16px;align-items:flex-start;padding-top:24px}
+      .modal{padding:32px 24px;border-radius:16px}
+      .w-brand{font-size:.5rem;letter-spacing:4px;margin-bottom:16px}
+      .w-icon{font-size:1.8rem;margin-bottom:14px}
+      h2{font-size:.95rem;margin-bottom:12px}
+      .w-text{font-size:.72rem;line-height:1.7;margin-bottom:20px}
+      .w-text br+br{display:none}
+      .w-divider{margin:0 auto 16px}
+      .w-legal{font-size:.55rem;margin-bottom:20px;line-height:1.6}
+      .w-btn{padding:12px 32px;font-size:.7rem}
+    }
   </style>
 </head>
 <body>
@@ -628,4 +640,3 @@ app.listen(PORT, () => {
   console.log(`  Admin pass  : ${ADMIN_PASS === 'noks-admin-2026' ? '⚠️  défaut (définir ADMIN_PASSWORD)' : '✓ personnalisé'}`);
   console.log(`\n  CLI toujours disponible : node manage.js\n`);
 });
-
