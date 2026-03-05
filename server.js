@@ -447,53 +447,50 @@ app.get('/welcome', (req, res) => {
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
   <title>NOK'S Consulting — Confidentialité</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    ${BASE_STYLE}
-    body{background:#0a0a0a;padding:0;margin:0;overflow-y:auto}
-    .overlay{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px}
-    .modal{background:#111;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:48px 40px;max-width:480px;width:100%;text-align:center;animation:modalIn .4s ease}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{height:100%}
+    body{min-height:100%;min-height:100dvh;margin:0;padding:16px;background:#0a0a0a;color:#fff;font-family:'Plus Jakarta Sans',-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;overflow-y:auto}
+    .modal{background:#111;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:44px 36px;max-width:460px;width:100%;text-align:center;animation:modalIn .4s ease}
     @keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-    .w-brand{font-size:.55rem;font-weight:800;text-transform:uppercase;letter-spacing:5px;color:rgba(255,255,255,.25);margin-bottom:24px}
-    .w-icon{font-size:2.2rem;margin-bottom:20px}
-    h2{font-size:1.1rem;font-weight:800;letter-spacing:-0.01em;margin-bottom:16px;color:#fff}
-    .w-text{font-size:.78rem;color:rgba(255,255,255,.45);line-height:1.8;margin-bottom:28px}
+    .w-brand{font-size:.5rem;font-weight:800;text-transform:uppercase;letter-spacing:4px;color:rgba(255,255,255,.25);margin-bottom:20px}
+    .w-icon{font-size:2rem;margin-bottom:16px}
+    h2{font-size:1rem;font-weight:800;letter-spacing:-0.01em;margin-bottom:12px;color:#fff}
+    .w-text{font-size:.75rem;color:rgba(255,255,255,.45);line-height:1.7;margin-bottom:24px}
     .w-text strong{color:rgba(255,255,255,.7);font-weight:700}
-    .w-divider{width:40px;height:1px;background:rgba(255,255,255,.08);margin:0 auto 24px}
-    .w-legal{font-size:.6rem;color:rgba(255,255,255,.2);line-height:1.7;margin-bottom:28px;letter-spacing:.3px}
-    .w-btn{display:inline-block;background:#fff;color:#0a0a0a;border:none;border-radius:10px;padding:14px 40px;font-family:inherit;font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:opacity .2s}
+    .w-divider{width:40px;height:1px;background:rgba(255,255,255,.08);margin:0 auto 20px}
+    .w-legal{font-size:.58rem;color:rgba(255,255,255,.2);line-height:1.6;margin-bottom:24px;letter-spacing:.3px}
+    .w-btn{display:inline-block;background:#fff;color:#0a0a0a;border:none;border-radius:10px;padding:14px 40px;font-family:inherit;font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:opacity .2s;text-decoration:none}
     .w-btn:hover{opacity:.9}
-    @media(max-width:500px){
-      .overlay{padding:16px;align-items:flex-start;padding-top:24px}
-      .modal{padding:32px 24px;border-radius:16px}
-      .w-brand{font-size:.5rem;letter-spacing:4px;margin-bottom:16px}
-      .w-icon{font-size:1.8rem;margin-bottom:14px}
-      h2{font-size:.95rem;margin-bottom:12px}
-      .w-text{font-size:.72rem;line-height:1.7;margin-bottom:20px}
-      .w-text br+br{display:none}
-      .w-divider{margin:0 auto 16px}
-      .w-legal{font-size:.55rem;margin-bottom:20px;line-height:1.6}
-      .w-btn{padding:12px 32px;font-size:.7rem}
+    @media(max-height:700px),(max-width:400px){
+      body{align-items:flex-start;padding:12px}
+      .modal{padding:28px 20px;border-radius:14px}
+      .w-brand{font-size:.45rem;letter-spacing:3px;margin-bottom:14px}
+      .w-icon{font-size:1.5rem;margin-bottom:12px}
+      h2{font-size:.9rem;margin-bottom:10px}
+      .w-text{font-size:.68rem;line-height:1.6;margin-bottom:16px}
+      .w-divider{margin:0 auto 12px}
+      .w-legal{font-size:.52rem;margin-bottom:16px;line-height:1.5}
+      .w-btn{padding:12px 30px;font-size:.68rem}
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <div class="modal">
-      <div class="w-brand">NOK'S Consulting</div>
-      <div class="w-icon">⚠️</div>
-      <h2>Document confidentiel</h2>
-      <div class="w-text">
-        Ce prototype est la <strong>propriété exclusive de NOK'S Consulting</strong>.<br>
-        Il vous est communiqué à titre strictement confidentiel dans le cadre de notre collaboration.<br><br>
-        Toute <strong>reproduction, capture d'écran, diffusion ou partage</strong> de ce contenu est formellement interdite sans autorisation écrite préalable.
-      </div>
-      <div class="w-divider"></div>
-      <div class="w-legal">En cliquant sur « J'ai compris », vous acceptez ces conditions de confidentialité.</div>
-      <a href="/p/AccueilV3.html" class="w-btn">J'ai compris</a>
+  <div class="modal">
+    <div class="w-brand">NOK'S Consulting</div>
+    <div class="w-icon">⚠️</div>
+    <h2>Document confidentiel</h2>
+    <div class="w-text">
+      Ce prototype est la <strong>propriété exclusive de NOK'S Consulting</strong>.
+      Il vous est communiqué à titre strictement confidentiel dans le cadre de notre collaboration.<br><br>
+      Toute <strong>reproduction, capture d'écran, diffusion ou partage</strong> est formellement interdit sans autorisation écrite préalable.
     </div>
+    <div class="w-divider"></div>
+    <div class="w-legal">En cliquant sur « J'ai compris », vous acceptez ces conditions.</div>
+    <a href="/p/AccueilV3.html" class="w-btn">J'ai compris</a>
   </div>
 </body>
 </html>`);
