@@ -411,7 +411,7 @@ app.get('/', (req, res) => {
   if (session) {
     const found = findClientByCode(session.code);
     if (found && new Date() <= new Date(found.client.expires)) {
-      return res.redirect('/p/AccueilV3.html');
+      return res.redirect('/welcome');
     }
   }
   res.send(loginPage());
