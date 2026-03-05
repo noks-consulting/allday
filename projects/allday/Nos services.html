@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Allday — Une équipe jeune, réactive et dédiée. Services sur-mesure pour vos bureaux opérés à Paris : conciergerie, IT, ménage, mobilier et bien plus.">
+    <meta name="keywords" content="services bureaux opérés Paris, conciergerie bureau, office manager dédié, bureau clé en main Paris">
+    <title>Nos Services — Allday | L'Équipe qui Fait la Différence</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --yellow:#1B3A4B;--yellow-light:#2A5570;--yellow-pale:#EAE3D8;--yellow-deep:#0F2535;
+            --black:#0F0F0F;--black-soft:#1A1A1A;--dark:#2A2A2A;
+            --grey-700:#444;--grey-500:#777;--grey-300:#BBB;--grey-100:#EDE5D8;
+            --white:#FFFFFF;--off-white:#F5F0E8;
+            --sans:'Plus Jakarta Sans',-apple-system,sans-serif;
+            --serif:'Playfair Display',Georgia,serif;
+            --ease-out:cubic-bezier(0.23,1,0.32,1);
+            --ease-power:cubic-bezier(0.16,1,0.3,1);
+            --on-accent:#FFFFFF;
+            --on-accent-muted:rgba(255,255,255,0.75);
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+        body{font-family:var(--sans);background:var(--white);color:var(--black);overflow-x:hidden;cursor:none}
+        ::selection{background:var(--yellow);color:var(--on-accent)}
+        img{display:block;max-width:100%}a{text-decoration:none;color:inherit}ul{list-style:none}
+        button{font-family:var(--sans);cursor:pointer}
+        .serif{font-family:var(--serif);font-style:italic}
+
+        /* ═══════ CURSOR ═══════ */
+        .cursor-dot{position:fixed;width:8px;height:8px;background:var(--yellow);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .35s var(--ease-power),height .35s var(--ease-power);mix-blend-mode:difference}
+        .cursor-ring{position:fixed;width:44px;height:44px;border:1.5px solid var(--yellow);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);opacity:.4;transition:width .45s var(--ease-power),height .45s var(--ease-power),opacity .3s}
+        .cursor-dot.active{width:52px;height:52px;background:color-mix(in srgb, var(--yellow) 15%, transparent)}
+        .cursor-ring.active{width:68px;height:68px;opacity:.2}
+
+        /* ═══════ NAV ═══════ */
+        nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 5%;z-index:9000;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.04)}
+        .logo{font-weight:800;font-size:1.35rem;letter-spacing:-1px}.logo span{color:var(--yellow)}
+        .nav-links{display:flex;gap:36px}
+        .nav-links a{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;opacity:.45;position:relative;transition:opacity .4s}
+        .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--yellow);transition:width .4s var(--ease-power)}
+        .nav-links a:hover{opacity:1}.nav-links a:hover::after{width:100%}
+        .nav-links a.active{opacity:1}.nav-links a.active::after{width:100%}
+        .btn-nav{font-weight:800;font-size:.68rem;text-transform:uppercase;letter-spacing:1.5px;padding:11px 24px;border:1.5px solid var(--black);transition:all .5s var(--ease-power);position:relative;overflow:hidden}
+        .btn-nav::before{content:'';position:absolute;inset:0;background:var(--yellow);transform:translateY(101%);transition:transform .5s var(--ease-power);z-index:-1}
+        .btn-nav:hover{border-color:var(--yellow)}.btn-nav:hover::before{transform:translateY(0)}
+
+        /* ═══════════════════════════════════════════════
+           HERO — Services page
+           Split: left text / right collage
+           ═══════════════════════════════════════════════ */
+        .services-hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:140px 5% 100px;overflow:hidden;background:var(--black)}
+        .services-hero__bg{position:absolute;inset:0;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+        .services-hero__content{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1400px;margin:0 auto;width:100%}
+
+        .services-hero__left{position:relative;z-index:2}
+        .services-hero__eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--yellow);margin-bottom:28px}
+        .services-hero__eyebrow::before{content:'';width:28px;height:1.5px;background:var(--yellow)}
+        .services-hero__title{font-size:clamp(2.6rem,5vw,4.5rem);font-weight:800;text-transform:uppercase;letter-spacing:-.03em;line-height:.95;color:var(--white);margin-bottom:24px}
+        .services-hero__title .line{display:block;overflow:hidden}
+        .services-hero__title .line-inner{display:block;transform:translateY(110%)}
+        .services-hero__title .serif{text-transform:none;letter-spacing:-.01em}
+        .services-hero__desc{font-size:1.05rem;font-weight:300;color:var(--grey-300);line-height:1.8;max-width:480px;margin-bottom:36px;opacity:0}
+        .services-hero__desc strong{font-weight:700;color:var(--yellow)}
+        .services-hero__cta{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:1.5px;padding:18px 40px;background:var(--yellow);color:var(--on-accent);border:none;transition:all .5s var(--ease-power);opacity:0}
+        .services-hero__cta:hover{background:var(--yellow-light);transform:translateY(-2px);box-shadow:0 12px 40px color-mix(in srgb, var(--yellow) 20%, transparent)}
+        .services-hero__cta svg{width:14px;height:14px;transition:transform .4s var(--ease-power)}
+        .services-hero__cta:hover svg{transform:translateX(3px)}
+
+        .services-hero__right{position:relative;height:560px}
+        .services-hero__img{position:absolute;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+        .services-hero__img img{width:100%;height:100%;object-fit:cover}
+        .services-hero__img--1{width:320px;height:400px;top:0;right:0;z-index:2}
+        .services-hero__img--2{width:260px;height:300px;bottom:20px;left:0;z-index:3;border:4px solid var(--yellow)}
+        .services-hero__img--3{width:180px;height:220px;top:60px;left:100px;z-index:1;opacity:.6}
+        .services-hero__stat-float{position:absolute;bottom:80px;right:40px;background:var(--yellow);padding:20px 28px;z-index:5;box-shadow:0 12px 40px rgba(0,0,0,.2)}
+        .services-hero__stat-float-number{font-size:2rem;font-weight:800;line-height:1;color:var(--black)}
+        .services-hero__stat-float-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(0,0,0,.5);margin-top:2px}
+
+        /* ═══════════════════════════════════════════════
+           MANIFESTO — Notre Promesse
+           ═══════════════════════════════════════════════ */
+        .manifesto{padding:120px 5%;background:var(--white);position:relative;overflow:hidden}
+        .manifesto__inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+        .manifesto__left{}
+        .manifesto__eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--grey-500);margin-bottom:20px}
+        .manifesto__eyebrow::before{content:'';width:20px;height:1.5px;background:var(--yellow)}
+        .manifesto__title{font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:1.1;margin-bottom:24px}
+        .manifesto__title .serif{text-transform:none}
+        .manifesto__text{font-size:.95rem;font-weight:300;color:var(--grey-700);line-height:1.85}
+        .manifesto__text strong{font-weight:700;color:var(--black)}
+        .manifesto__text p{margin-bottom:16px}
+
+        .manifesto__right{position:relative}
+        .manifesto__stats{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+        .manifesto__stat{background:var(--grey-100);padding:40px 32px;text-align:center;transition:all .5s var(--ease-power);position:relative;overflow:hidden}
+        .manifesto__stat::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--yellow);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease-power)}
+        .manifesto__stat:hover{background:var(--yellow-pale)}
+        .manifesto__stat:hover::after{transform:scaleX(1)}
+        .manifesto__stat-number{font-size:2.8rem;font-weight:800;line-height:1;color:var(--black)}
+        .manifesto__stat-number span{color:var(--yellow)}
+        .manifesto__stat-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--grey-500);margin-top:8px}
+
+        /* ═══════════════════════════════════════════════
+           SERVICES GRID
+           ═══════════════════════════════════════════════ */
+        .services{padding:120px 5%;background:var(--black-soft)}
+        .services__inner{max-width:1400px;margin:0 auto}
+        .services__header{text-align:center;margin-bottom:72px}
+        .services__eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--grey-500);margin-bottom:16px}
+        .services__eyebrow::before,.services__eyebrow::after{content:'';width:20px;height:1.5px;background:var(--yellow)}
+        .services__title{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;color:var(--white)}
+        .services__title .serif{text-transform:none}
+        .services__subtitle{font-size:.88rem;font-weight:300;color:var(--grey-500);margin-top:12px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7}
+
+        .services__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+        .service-card{background:var(--black);padding:40px 28px;border:1px solid rgba(255,255,255,.03);transition:all .5s var(--ease-power);position:relative;overflow:hidden;cursor:default}
+        .service-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--yellow);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease-power)}
+        .service-card:hover{background:var(--dark)}
+        .service-card:hover::before{transform:scaleX(1)}
+        .service-card__icon{width:44px;height:44px;border:1.5px solid var(--yellow);display:flex;align-items:center;justify-content:center;margin-bottom:20px;transition:all .4s var(--ease-power)}
+        .service-card:hover .service-card__icon{background:var(--yellow)}
+        .service-card__icon svg{width:18px;height:18px;color:var(--yellow);stroke-width:1.5;transition:color .3s}
+        .service-card:hover .service-card__icon svg{color:var(--white)}
+        .service-card__title{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--white);margin-bottom:10px;line-height:1.3}
+        .service-card__desc{font-size:.78rem;font-weight:300;color:var(--grey-500);line-height:1.7}
+
+        /* ═══════════════════════════════════════════════
+           TEAM / REACTIVITY SECTION
+           ═══════════════════════════════════════════════ */
+        .team-section{padding:120px 5%;background:var(--white);overflow:hidden}
+        .team-section__inner{max-width:1400px;margin:0 auto}
+        .team-section__header{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;margin-bottom:80px}
+        .team-section__header-left{}
+        .team-section__eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--grey-500);margin-bottom:20px}
+        .team-section__eyebrow::before{content:'';width:20px;height:1.5px;background:var(--yellow)}
+        .team-section__title{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:1.05}
+        .team-section__title .serif{text-transform:none}
+        .team-section__header-right{padding-top:20px}
+        .team-section__header-text{font-size:.95rem;font-weight:300;color:var(--grey-700);line-height:1.85}
+
+        /* Timeline / process */
+        .team-timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+        .team-timeline::before{content:'';position:absolute;top:28px;left:0;right:0;height:2px;background:var(--grey-100)}
+        .team-timeline__step{position:relative;padding:0 24px}
+        .team-timeline__dot{width:16px;height:16px;background:var(--yellow);border-radius:50%;position:relative;z-index:2;margin-bottom:24px;box-shadow:0 0 0 4px var(--yellow-pale)}
+        .team-timeline__step:hover .team-timeline__dot{box-shadow:0 0 0 8px var(--yellow-pale);transform:scale(1.15)}
+        .team-timeline__number{font-size:.55rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--yellow-deep);margin-bottom:8px}
+        .team-timeline__title{font-size:.88rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;margin-bottom:8px;line-height:1.3}
+        .team-timeline__desc{font-size:.78rem;font-weight:300;color:var(--grey-500);line-height:1.7}
+
+        /* ═══════════════════════════════════════════════
+           VALUES — from existing site content
+           ═══════════════════════════════════════════════ */
+        .values{padding:120px 5%;background:var(--grey-100)}
+        .values__inner{max-width:1400px;margin:0 auto}
+        .values__header{text-align:center;margin-bottom:72px}
+        .values__eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--grey-500);margin-bottom:16px}
+        .values__eyebrow::before,.values__eyebrow::after{content:'';width:20px;height:1.5px;background:var(--yellow)}
+        .values__title{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:800;text-transform:uppercase;letter-spacing:-.02em}
+        .values__title .serif{text-transform:none}
+        .values__subtitle{font-size:.88rem;font-weight:300;color:var(--grey-500);margin-top:12px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.7}
+
+        .values__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+        .value-card{background:var(--white);padding:48px 36px;border:1px solid rgba(0,0,0,.04);transition:all .5s var(--ease-power);position:relative;overflow:hidden}
+        .value-card::before{content:'';position:absolute;left:0;top:0;width:4px;height:100%;background:var(--yellow);transform:scaleY(0);transform-origin:top;transition:transform .5s var(--ease-power)}
+        .value-card:hover{box-shadow:0 20px 60px rgba(0,0,0,.04);transform:translateY(-3px)}
+        .value-card:hover::before{transform:scaleY(1)}
+        .value-card__number{font-size:3rem;font-weight:800;color:var(--yellow-pale);line-height:1;margin-bottom:16px;font-family:var(--serif);font-style:italic}
+        .value-card__title{font-size:1.1rem;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:14px}
+        .value-card__desc{font-size:.85rem;font-weight:300;color:var(--grey-700);line-height:1.8}
+
+        /* ═══════════════════════════════════════════════
+           IDENTITY SECTION — editorial layout
+           ═══════════════════════════════════════════════ */
+        .identity{padding:120px 5%;background:var(--white)}
+        .identity__inner{max-width:1200px;margin:0 auto}
+        .identity__header{margin-bottom:72px}
+        .identity__eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--grey-500);margin-bottom:20px}
+        .identity__eyebrow::before{content:'';width:20px;height:1.5px;background:var(--yellow)}
+        .identity__title{font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;max-width:800px}
+        .identity__title .serif{text-transform:none}
+        .identity__subtitle{font-size:.88rem;font-weight:300;color:var(--grey-500);margin-top:10px;line-height:1.7}
+
+        .identity__items{display:flex;flex-direction:column;gap:2px}
+        .identity-item{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:360px;overflow:hidden;background:var(--grey-100)}
+        .identity-item:nth-child(even){direction:rtl}
+        .identity-item:nth-child(even)>*{direction:ltr}
+        .identity-item__img{overflow:hidden}
+        .identity-item__img img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease-out)}
+        .identity-item:hover .identity-item__img img{transform:scale(1.05)}
+        .identity-item__content{padding:48px 56px;display:flex;flex-direction:column;justify-content:center}
+        .identity-item__title{font-size:1.3rem;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:16px;position:relative;padding-bottom:16px}
+        .identity-item__title::after{content:'';position:absolute;bottom:0;left:0;width:32px;height:2px;background:var(--yellow)}
+        .identity-item__desc{font-size:.88rem;font-weight:300;color:var(--grey-700);line-height:1.85}
+
+        /* ═══════ CTA ═══════ */
+        .cta-banner{background:var(--yellow);padding:100px 5%;position:relative;overflow:hidden}
+        .cta-banner__noise{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none}
+        .cta-banner__inner{max-width:900px;margin:0 auto;text-align:center;position:relative;z-index:2}
+        .cta-banner__title{color:var(--white);font-family:var(--serif);font-size:clamp(2rem,4vw,3.5rem);font-weight:700;font-style:italic;line-height:1.1;margin-bottom:16px;color:var(--on-accent)}
+        .cta-banner__desc{font-size:1rem;font-weight:400;color:var(--on-accent-muted);line-height:1.7;max-width:500px;margin:0 auto 36px}
+        .cta-banner__btn{display:inline-flex;align-items:center;gap:12px;font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:1.5px;padding:18px 44px;background:var(--black);color:var(--white);border:none;cursor:pointer;transition:all .5s var(--ease-power);position:relative;overflow:hidden}
+        .cta-banner__btn::before{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-101%);transition:transform .6s var(--ease-power);z-index:0}
+        .cta-banner__btn span{position:relative;z-index:1;transition:color .4s}
+        .cta-banner__btn svg{position:relative;z-index:1;width:16px;height:16px;transition:transform .4s var(--ease-power)}
+        .cta-banner__btn:hover{color:var(--black)}.cta-banner__btn:hover::before{transform:translateX(0)}
+        .cta-banner__btn:hover svg{transform:translateX(3px)}
+
+        /* ═══════ FOOTER ═══════ */
+        footer{background:var(--black);padding:60px 5% 40px}
+        .footer__top{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.06)}
+        .footer__brand{font-weight:800;font-size:1.35rem;letter-spacing:-1px;color:var(--white);margin-bottom:16px}.footer__brand span{color:var(--yellow)}
+        .footer__tagline{font-size:.85rem;font-weight:300;color:var(--grey-500);line-height:1.7;max-width:260px}
+        .footer__col-title{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--yellow);margin-bottom:20px}
+        .footer__links li{margin-bottom:10px}
+        .footer__links a{font-size:.8rem;font-weight:400;color:var(--grey-500);transition:color .3s}.footer__links a:hover{color:var(--white)}
+        .footer__bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px}
+        .footer__copy{font-size:.68rem;color:rgba(255,255,255,.2)}
+        .footer__legal{display:flex;gap:20px}
+        .footer__legal a{font-size:.68rem;color:rgba(255,255,255,.2);transition:color .3s}.footer__legal a:hover{color:var(--grey-500)}
+
+        .reveal{opacity:0;transform:translateY(40px)}
+
+        /* ═══════ RESPONSIVE ═══════ */
+        @media(max-width:1024px){
+            .services-hero__content{grid-template-columns:1fr;gap:40px}
+            .services-hero__right{height:400px;display:none}
+            .manifesto__inner{grid-template-columns:1fr}
+            .services__grid{grid-template-columns:repeat(2,1fr)}
+            .team-section__header{grid-template-columns:1fr}
+            .team-timeline{grid-template-columns:repeat(2,1fr);gap:32px}
+            .team-timeline::before{display:none}
+            .values__grid{grid-template-columns:1fr 1fr}
+            .identity-item{grid-template-columns:1fr}
+            .identity-item:nth-child(even){direction:ltr}
+            .identity-item__img{height:280px}
+            .footer__top{grid-template-columns:1fr 1fr;gap:32px}
+        }
+        @media(max-width:768px){
+            .nav-links{display:none}
+            nav{padding:16px 5%}
+            .services-hero{padding:120px 5% 80px;min-height:auto}
+            .services__grid{grid-template-columns:1fr}
+            .services{padding:80px 5%}
+            .team-section{padding:80px 5%}
+            .team-timeline{grid-template-columns:1fr}
+            .values__grid{grid-template-columns:1fr}
+            .values,.identity,.manifesto{padding:80px 5%}
+            .identity-item__content{padding:32px 28px}
+            .cta-banner{padding:80px 5%}
+            .footer__top{grid-template-columns:1fr}
+            .footer__bottom{flex-direction:column;gap:12px;text-align:center}
+            .cursor-dot,.cursor-ring{display:none}
+            body{cursor:auto}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+
+    <!-- NAV -->
+    <header>
+        <nav role="navigation" aria-label="Navigation principale">
+            <a href="AccueilV3.html" class="logo">ALL<span>DAY</span></a>
+            <ul class="nav-links">
+                <li><a href="AccueilV3.html">Accueil</a></li>
+                <li><a href="nos-espaces.html">Nos Espaces</a></li>
+                <li><a href="Nos%20services.html" class="active">Nos Services</a></li>
+                <li><a href="Notre%20equipe.html">Notre Équipe</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <a href="contact.html" class="btn-nav">Contactez-nous</a>
+        </nav>
+    </header>
+
+    <!-- ═══════ HERO ═══════ -->
+    <section class="services-hero" aria-label="Nos services">
+        <div class="services-hero__bg" aria-hidden="true"></div>
+        <div class="services-hero__content">
+            <div class="services-hero__left">
+                <p class="services-hero__eyebrow">L'Expérience Allday</p>
+                <h1 class="services-hero__title">
+                    <span class="line"><span class="line-inner">On ne loue</span></span>
+                    <span class="line"><span class="line-inner">pas des m².</span></span>
+                    <span class="line"><span class="line-inner"><span class="serif">On s'occupe</span></span></span>
+                    <span class="line"><span class="line-inner"><span class="serif">de tout.</span></span></span>
+                </h1>
+                <p class="services-hero__desc">Chez Allday, vous avez une <strong>équipe dédiée</strong> qui anticipe vos besoins avant même que vous ne les exprimiez. Jeunes, réactifs, passionnés — on ne compte pas nos heures pour que vous ne comptiez que vos succès.</p>
+                <a href="contact.html" class="services-hero__cta">
+                    Parler à l'équipe
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div class="services-hero__right">
+                <div class="services-hero__img services-hero__img--1">
+                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=600&q=80" alt="Équipe Allday en réunion" loading="eager">
+                </div>
+                <div class="services-hero__img services-hero__img--2">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500&q=80" alt="Collaboration d'équipe" loading="eager">
+                </div>
+                <div class="services-hero__img services-hero__img--3">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=400&q=80" alt="Espace de travail Allday" loading="lazy">
+                </div>
+                <div class="services-hero__stat-float">
+                    <div class="services-hero__stat-float-number">&lt;2h</div>
+                    <div class="services-hero__stat-float-label">Temps de réponse moyen</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ MANIFESTO ═══════ -->
+    <section class="manifesto" aria-label="Notre promesse">
+        <div class="manifesto__inner">
+            <div class="manifesto__left reveal">
+                <p class="manifesto__eyebrow">Notre Promesse</p>
+                <h2 class="manifesto__title">Allday est une marque du groupe <span class="serif">Immocom,</span></h2>
+                <div class="manifesto__text">
+                    <p>foncière familiale créée en 2000 avec pour pilier les 3 valeurs fondatrices : <strong>"Développer, valoriser, transmettre"</strong>.</p>
+                    <p>Chez Allday, on a pris ces valeurs et on les a poussées plus loin. On a constitué une <strong>équipe soudée de passionnés</strong> qui ne se contente pas de gérer des bureaux — on crée des environnements où les entreprises se sentent chez elles.</p>
+                    <p>Notre secret ? <strong>Zéro process bureaucratique, zéro ticket anonyme.</strong> Votre office manager connaît votre prénom, vos habitudes, et le nom de votre chat.</p>
+                </div>
+            </div>
+            <div class="manifesto__right reveal">
+                <div class="manifesto__stats">
+                    <div class="manifesto__stat">
+                        <div class="manifesto__stat-number">&lt;2<span>h</span></div>
+                        <div class="manifesto__stat-label">Temps de réponse</div>
+                    </div>
+                    <div class="manifesto__stat">
+                        <div class="manifesto__stat-number">98<span>%</span></div>
+                        <div class="manifesto__stat-label">Taux de satisfaction</div>
+                    </div>
+                    <div class="manifesto__stat">
+                        <div class="manifesto__stat-number">1</div>
+                        <div class="manifesto__stat-label">Interlocuteur dédié</div>
+                    </div>
+                    <div class="manifesto__stat">
+                        <div class="manifesto__stat-number">24<span>/7</span></div>
+                        <div class="manifesto__stat-label">Disponibilité</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ SERVICES GRID ═══════ -->
+    <section class="services" aria-label="Nos services inclus">
+        <div class="services__inner">
+            <div class="services__header">
+                <p class="services__eyebrow reveal">Tout inclus</p>
+                <h2 class="services__title reveal">Vos bureaux, notre <span class="serif">obsession.</span></h2>
+                <p class="services__subtitle reveal">Chaque service est inclus dans votre loyer. Pas de surprise, pas de supplément. Juste l'excellence au quotidien.</p>
+            </div>
+            <div class="services__grid">
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                    <h3 class="service-card__title">Office Manager dédié</h3>
+                    <p class="service-card__desc">Un interlocuteur unique qui connaît votre entreprise par cœur. Disponible par WhatsApp, email ou en personne.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+                    <h3 class="service-card__title">Réseau dédié haut débit</h3>
+                    <p class="service-card__desc">Fibre 10 Gb/s, Wi-Fi 6E, réseau séparé par entreprise. Infrastructure IT managée et support réactif inclus.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+                    <h3 class="service-card__title">Bureau clé en main</h3>
+                    <p class="service-card__desc">Mobilier premium, agencement sur-mesure, décoration soignée. Vous posez vos affaires, on a fait le reste.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                    <h3 class="service-card__title">Mobilier ergonomique</h3>
+                    <p class="service-card__desc">Fauteuils Herman Miller, bureaux réglables en hauteur, éclairage circadien. Le meilleur pour la santé de vos équipes.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                    <h3 class="service-card__title">Phone Box</h3>
+                    <p class="service-card__desc">Cabines acoustiques insonorisées pour vos appels et visios. Réservation instantanée via l'app Allday.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                    <h3 class="service-card__title">Accès sécurisé 24/7</h3>
+                    <p class="service-card__desc">Badge individuel, vidéosurveillance, vigile de nuit. Vos locaux, vos horaires — y compris à 3h du matin.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+                    <h3 class="service-card__title">Customisation</h3>
+                    <p class="service-card__desc">Peinture, signalétique, cloisons, branding. On adapte l'espace à votre image pour que votre équipe se sente chez elle.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+                    <h3 class="service-card__title">Ménage quotidien</h3>
+                    <p class="service-card__desc">Nettoyage professionnel quotidien, réapprovisionnement des consommables. Vous arrivez, c'est impeccable.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg></div>
+                    <h3 class="service-card__title">Facture unique</h3>
+                    <p class="service-card__desc">Un seul loyer, tout compris : charges, énergie, internet, ménage, assurance. La comptabilité, simplifiée.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                    <h3 class="service-card__title">Domiciliation incluse</h3>
+                    <p class="service-card__desc">Adresse commerciale prestigieuse, réception de courrier, gestion du courrier entrant. Votre siège, officiellement.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <h3 class="service-card__title">Salles de réunion</h3>
+                    <p class="service-card__desc">Heures de meeting incluses chaque mois. Vidéoconférence 4K, tableau blanc, catering disponible sur demande.</p>
+                </article>
+                <article class="service-card reveal">
+                    <div class="service-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+                    <h3 class="service-card__title">Taxes & charges incluses</h3>
+                    <p class="service-card__desc">Taxe foncière, charges de copropriété, assurance — tout est dans le loyer. Zéro mauvaise surprise en fin d'année.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ TEAM PROCESS ═══════ -->
+    <section class="team-section" aria-label="Notre approche">
+        <div class="team-section__inner">
+            <div class="team-section__header">
+                <div class="team-section__header-left reveal">
+                    <p class="team-section__eyebrow">Notre Approche</p>
+                    <h2 class="team-section__title">Pas un call center.<br>Une <span class="serif">vraie équipe.</span></h2>
+                </div>
+                <div class="team-section__header-right reveal">
+                    <p class="team-section__header-text">Quand vous nous appelez, c'est Marie, Thomas ou Léa qui décroche — pas un bot, pas un standard. On se connaît, on connaît vos locaux, on sait que la machine à café du 3e a un tempérament. C'est ça, la différence Allday.</p>
+                </div>
+            </div>
+            <div class="team-timeline">
+                <div class="team-timeline__step reveal">
+                    <div class="team-timeline__dot"></div>
+                    <p class="team-timeline__number">Étape 01</p>
+                    <h3 class="team-timeline__title">Vous nous contactez</h3>
+                    <p class="team-timeline__desc">WhatsApp, email, téléphone — le canal que vous préférez. Réponse garantie en moins de 2 heures, 7j/7.</p>
+                </div>
+                <div class="team-timeline__step reveal">
+                    <div class="team-timeline__dot"></div>
+                    <p class="team-timeline__number">Étape 02</p>
+                    <h3 class="team-timeline__title">On comprend le besoin</h3>
+                    <p class="team-timeline__desc">Votre office manager dédié qualifie la demande et prend les décisions. Pas de ticket, pas de file d'attente.</p>
+                </div>
+                <div class="team-timeline__step reveal">
+                    <div class="team-timeline__dot"></div>
+                    <p class="team-timeline__number">Étape 03</p>
+                    <h3 class="team-timeline__title">On agit immédiatement</h3>
+                    <p class="team-timeline__desc">Intervention le jour même pour 90% des demandes. On fait, on ne promet pas de faire.</p>
+                </div>
+                <div class="team-timeline__step reveal">
+                    <div class="team-timeline__dot"></div>
+                    <p class="team-timeline__number">Étape 04</p>
+                    <h3 class="team-timeline__title">On suit et on anticipe</h3>
+                    <p class="team-timeline__desc">Suivi de résolution + on identifie les améliorations proactives. L'objectif : que le problème n'arrive plus.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ VALUES ═══════ -->
+    <section class="values" aria-label="Nos valeurs">
+        <div class="values__inner">
+            <div class="values__header">
+                <p class="values__eyebrow reveal">Nos Valeurs</p>
+                <h2 class="values__title reveal">Développer, valoriser, <span class="serif">transmettre.</span></h2>
+                <p class="values__subtitle reveal">Les 3 piliers hérités du groupe Immocom, réinterprétés pour une nouvelle génération de bureaux.</p>
+            </div>
+            <div class="values__grid">
+                <article class="value-card reveal">
+                    <div class="value-card__number">01</div>
+                    <h3 class="value-card__title">Développer</h3>
+                    <p class="value-card__desc">Chez Allday nous développons des surfaces de bureau qui ne ressemblent à aucunes autres, de par le soin particulier que nous apportons aux rénovations, à l'atmosphère et à la qualité du mobilier conçu sur mesure pour chaque espace en respectant l'âme de chaque lieu.</p>
+                </article>
+                <article class="value-card reveal">
+                    <div class="value-card__number">02</div>
+                    <h3 class="value-card__title">Valoriser</h3>
+                    <p class="value-card__desc">Nous valorisons nos espaces par leur aménagement et la sélectivité de leur emplacement mais surtout par le service personnalisé que nous apportons aux entreprises. Notre mission : valoriser votre entreprise sans vous préoccuper de vos bureaux.</p>
+                </article>
+                <article class="value-card reveal">
+                    <div class="value-card__number">03</div>
+                    <h3 class="value-card__title">Transmettre</h3>
+                    <p class="value-card__desc">Nous souhaitons transmettre à nos clients notre passion pour le bureau nouvelle génération et le service dédié afin que chaque entreprise se sente chez elle dans nos espaces. Un lieu qui reflète qui vous êtes.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ IDENTITY ═══════ -->
+    <section class="identity" aria-label="Notre identité">
+        <div class="identity__inner">
+            <div class="identity__header">
+                <p class="identity__eyebrow reveal">Notre Identité</p>
+                <h2 class="identity__title reveal">Allday repose sur des éléments essentiels qui reflètent <span class="serif">son identité</span></h2>
+                <p class="identity__subtitle reveal">Sa vision et son engagement envers ses membres et la communauté.</p>
+            </div>
+            <div class="identity__items">
+                <article class="identity-item reveal">
+                    <div class="identity-item__img">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Qualité des services Allday" loading="lazy">
+                    </div>
+                    <div class="identity-item__content">
+                        <h3 class="identity-item__title">Qualité des services</h3>
+                        <p class="identity-item__desc">Allday se distingue par la qualité de ses prestations. Elle offre un environnement professionnel haut de gamme avec des installations modernes, une connectivité Internet fiable, des espaces de réunion bien équipés et un service client attentif. Nous cherchons à offrir une expérience exceptionnelle et à répondre aux besoins professionnels de chaque membre.</p>
+                    </div>
+                </article>
+                <article class="identity-item reveal">
+                    <div class="identity-item__img">
+                        <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=80" alt="Flexibilité Allday" loading="lazy">
+                    </div>
+                    <div class="identity-item__content">
+                        <h3 class="identity-item__title">Flexibilité</h3>
+                        <p class="identity-item__desc">La flexibilité est une valeur clé chez Allday. Nous offrons des solutions adaptées aux besoins changeants des entreprises de toute taille en proposant des options de location de bureaux flexibles, des horaires d'ouverture étendus et des services personnalisables pour répondre aux exigences spécifiques de chaque membre.</p>
+                    </div>
+                </article>
+                <article class="identity-item reveal">
+                    <div class="identity-item__img">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Innovation Allday" loading="lazy">
+                    </div>
+                    <div class="identity-item__content">
+                        <h3 class="identity-item__title">Innovation</h3>
+                        <p class="identity-item__desc">Allday encourage l'innovation et l'esprit entrepreneurial. C'est pourquoi nous créons des environnements inspirants où les membres sont stimulés et peuvent renforcer leur culture d'entreprise. Des espaces pensés pour catalyser la créativité et l'énergie collective.</p>
+                    </div>
+                </article>
+                <article class="identity-item reveal">
+                    <div class="identity-item__img">
+                        <img src="https://images.unsplash.com/photo-1600508774634-4e11d34730e2?auto=format&fit=crop&w=800&q=80" alt="Design Allday" loading="lazy">
+                    </div>
+                    <div class="identity-item__content">
+                        <h3 class="identity-item__title">Design</h3>
+                        <p class="identity-item__desc">Chaque espace a son histoire et son empreinte. Lorsque nous créons nos espaces nous nous efforçons de respecter son ADN. Nos architectes conçoivent vos bureaux comme des lieux de vie agréables et inspirants. Notre mobilier et nos éclairages sont fabriqués sur mesure en France avec des matériaux français.</p>
+                    </div>
+                </article>
+                <article class="identity-item reveal">
+                    <div class="identity-item__img">
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80" alt="Durabilité Allday" loading="lazy">
+                    </div>
+                    <div class="identity-item__content">
+                        <h3 class="identity-item__title">Durabilité</h3>
+                        <p class="identity-item__desc">Nous adoptons des pratiques respectueuses de l'environnement en ayant recours à des matériaux éco-responsables, en intégrant le recyclage dans nos opérations quotidiennes, et en privilégiant des fournisseurs locaux engagés dans une démarche durable.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════ CTA ═══════ -->
+    <section class="cta-banner" aria-label="Appel à l'action">
+        <div class="cta-banner__noise" aria-hidden="true"></div>
+        <div class="cta-banner__inner">
+            <h2 class="cta-banner__title reveal">Prêt à ne plus gérer vos bureaux ?</h2>
+            <p class="cta-banner__desc reveal">Décrivez votre projet. Notre équipe revient vers vous sous 2 heures avec une proposition sur-mesure.</p>
+            <a href="contact.html" class="cta-banner__btn reveal">
+                <span>Trouver mes bureaux</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- ═══════ FOOTER ═══════ -->
+    <footer role="contentinfo">
+        <div class="footer__top">
+            <div><div class="footer__brand">ALL<span>DAY</span></div><p class="footer__tagline">L'immobilier haute-couture pour ceux qui n'ont pas le temps de faire des compromis.</p></div>
+            <div><h4 class="footer__col-title">Espaces</h4><ul class="footer__links"><li><a href="#">Bureau Privatif</a></li><li><a href="#">Espace Équipe</a></li><li><a href="#">Siège Social</a></li><li><a href="#">Salle de Réunion</a></li></ul></div>
+            <div><h4 class="footer__col-title">Expérience</h4><ul class="footer__links"><li><a href="#">Conciergerie</a></li><li><a href="#">Technologie</a></li><li><a href="#">Club Privé</a></li><li><a href="#">Événements</a></li></ul></div>
+            <div><h4 class="footer__col-title">Allday</h4><ul class="footer__links"><li><a href="#">Notre Vision</a></li><li><a href="#">L'Équipe</a></li><li><a href="#">Presse</a></li><li><a href="#">Carrières</a></li></ul></div>
+        </div>
+        <div class="footer__bottom"><span class="footer__copy">&copy; 2026 Allday.</span><div class="footer__legal"><a href="#">Mentions Légales</a><a href="#">Confidentialité</a></div></div>
+    </footer>
+
+    <!-- ═══════ JS ═══════ -->
+    <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* Cursor */
+    const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+    (function f(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(f)})();
+    document.querySelectorAll('a,button,.service-card,.value-card,.identity-item').forEach(el=>{
+        el.addEventListener('mouseenter',()=>{dot.classList.add('active');ring.classList.add('active')});
+        el.addEventListener('mouseleave',()=>{dot.classList.remove('active');ring.classList.remove('active')});
+    });
+
+    /* Hero animation */
+    const heroTL=gsap.timeline({defaults:{ease:'power4.out'},delay:.3});
+    heroTL
+        .to('.services-hero__title .line-inner',{y:0,duration:1.2,stagger:.08})
+        .to('.services-hero__desc',{opacity:1,duration:.7},'-=.5')
+        .to('.services-hero__cta',{opacity:1,duration:.6},'-=.3')
+        .from('.services-hero__img--1',{x:60,opacity:0,duration:1},'-=1')
+        .from('.services-hero__img--2',{x:-40,y:30,opacity:0,duration:1},'-=.7')
+        .from('.services-hero__img--3',{scale:.8,opacity:0,duration:.8},'-=.6')
+        .from('.services-hero__stat-float',{y:20,opacity:0,duration:.6},'-=.4');
+
+    /* Parallax images */
+    gsap.to('.services-hero__img--1 img',{scrollTrigger:{trigger:'.services-hero',start:'top top',end:'bottom top',scrub:1},y:'15%'});
+    gsap.to('.services-hero__img--2 img',{scrollTrigger:{trigger:'.services-hero',start:'top top',end:'bottom top',scrub:1},y:'8%'});
+
+    /* Manifesto stats counter */
+    gsap.utils.toArray('.manifesto__stat-number').forEach(num=>{
+        gsap.from(num,{scrollTrigger:{trigger:num,start:'top 85%'},textContent:0,duration:1.5,ease:'power2.out',snap:{textContent:1},
+            modifiers:{textContent:v=>{
+                const txt=num.innerHTML;
+                const match=txt.match(/(\d+)/);
+                if(match){const n=parseInt(match[1]);return txt.replace(n,Math.round(v))}
+                return txt;
+            }}
+        });
+    });
+
+    /* Service card stagger */
+    gsap.utils.toArray('.service-card').forEach((c,i)=>{
+        gsap.to(c,{scrollTrigger:{trigger:c,start:'top 88%'},opacity:1,y:0,duration:.7,delay:(i%4)*.08,ease:'power3.out'});
+    });
+
+    /* Timeline steps stagger */
+    gsap.utils.toArray('.team-timeline__step').forEach((s,i)=>{
+        gsap.to(s,{scrollTrigger:{trigger:s,start:'top 85%'},opacity:1,y:0,duration:.8,delay:i*.12,ease:'power3.out'});
+    });
+
+    /* General reveals */
+    window.addEventListener('load',()=>{
+        gsap.utils.toArray('.reveal').forEach(el=>{
+            if(el.closest('.services__grid')||el.closest('.team-timeline'))return;
+            gsap.to(el,{scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'},opacity:1,y:0,duration:.85,ease:'power3.out'});
+        });
+        ScrollTrigger.refresh();
+    });
+    </script>
+
+<!-- THEME SYSTEM -->
+<script>
+const ALLDAY_THEMES = [
+  { id:'marine',     name:'Marine',      color:'#1B3A4B', light:'#2A5570', pale:'#EAE3D8', deep:'#0F2535', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'original',   name:'Original',    color:'#FFC800', light:'#FFD740', pale:'#FFF3CC', deep:'#E6B400', onAccent:'#0F0F0F', onMuted:'rgba(0,0,0,0.55)' },
+  { id:'emeraude',   name:'Émeraude',    color:'#00A878', light:'#00C490', pale:'#E6F7F2', deep:'#007A58', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'terracotta', name:'Terracotta',  color:'#C8714A', light:'#D4896A', pale:'#FAF0EB', deep:'#A05535', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'prune',      name:'Prune',       color:'#7B2D8B', light:'#9B40AB', pale:'#F4E8F7', deep:'#5A1E68', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'or',         name:'Or pâle',     color:'#BFA980', light:'#D4C09A', pale:'#F7F3ED', deep:'#8A7A5E', onAccent:'#0F0F0F', onMuted:'rgba(0,0,0,0.55)' },
+  { id:'coral',      name:'Corail',      color:'#E8614A', light:'#F07A66', pale:'#FDF0ED', deep:'#C04030', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'acier',      name:'Bleu acier',  color:'#4A6FA5', light:'#6A8FBF', pale:'#EEF3F9', deep:'#2A4F85', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'sauge',      name:'Sauge',       color:'#4A7C59', light:'#5E9B6F', pale:'#EAF4EE', deep:'#2D5C3A', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'graphite',   name:'Graphite',    color:'#555555', light:'#777777', pale:'#F0F0F0', deep:'#333333', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'bordeaux',  name:'Bordeaux',    color:'#722F37', light:'#8E3D47', pale:'#F5E8EA', deep:'#551E25', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'indigo',    name:'Indigo',      color:'#3730A3', light:'#4F46C0', pale:'#EEF2FF', deep:'#1E1B75', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'ocre',      name:'Ocre',        color:'#C9813A', light:'#DE9A52', pale:'#FBF3E8', deep:'#9D5E22', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'rose',      name:'Rose poudré', color:'#B5687A', light:'#CC8090', pale:'#F9EEF1', deep:'#8E4A5E', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'lavande',   name:'Lavande',     color:'#7B68BE', light:'#9487CC', pale:'#F0EEF9', deep:'#5C4D90', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'ciel',      name:'Ciel',        color:'#1A7FAA', light:'#2E9EC8', pale:'#E5F4FA', deep:'#0D5E80', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'foret',     name:'Forêt',       color:'#2D6A4F', light:'#3D8964', pale:'#E8F4EE', deep:'#1A4832', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'sable',     name:'Sable',       color:'#B8935A', light:'#CFB07A', pale:'#F7F2E8', deep:'#8A6A38', onAccent:'#0F0F0F', onMuted:'rgba(0,0,0,0.55)' },
+  { id:'nuit',      name:'Nuit',        color:'#0F1C3F', light:'#1E2E5A', pale:'#E8ECF5', deep:'#070E25', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'rubis',     name:'Rubis',       color:'#B92B43', light:'#D04060', pale:'#FDEAED', deep:'#8A1A2E', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+];
+
+function alldayApplyTheme(theme) {
+  const r = document.documentElement;
+  r.style.setProperty('--yellow',        theme.color);
+  r.style.setProperty('--yellow-light',  theme.light);
+  r.style.setProperty('--yellow-pale',   theme.pale);
+  r.style.setProperty('--yellow-deep',   theme.deep);
+  r.style.setProperty('--on-accent',     theme.onAccent);
+  r.style.setProperty('--on-accent-muted', theme.onMuted);
+  localStorage.setItem('allday-theme', theme.id);
+  document.querySelectorAll('.theme-swatch').forEach(s => {
+    s.classList.toggle('active', s.dataset.id === theme.id);
+  });
+}
+
+// Load saved theme immediately
+(function(){
+  const saved = localStorage.getItem('allday-theme');
+  if (saved) {
+    const t = ALLDAY_THEMES.find(x => x.id === saved);
+    if (t) {
+      const r = document.documentElement;
+      r.style.setProperty('--yellow',          t.color);
+      r.style.setProperty('--yellow-light',    t.light);
+      r.style.setProperty('--yellow-pale',     t.pale);
+      r.style.setProperty('--yellow-deep',     t.deep);
+      r.style.setProperty('--on-accent',       t.onAccent);
+      r.style.setProperty('--on-accent-muted', t.onMuted);
+    }
+  }
+})();
+</script>
+
+<style>
+/* ── TOGGLE BUTTON ── */
+.theme-toggle-btn {
+  position: fixed; bottom: 32px; right: 32px; z-index: 9997;
+  width: 52px; height: 52px;
+  background: var(--black); color: var(--white);
+  border: 2.5px solid var(--yellow);
+  border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.22);
+  transition: transform 0.3s var(--ease-power), box-shadow 0.3s, border-color 0.4s;
+  font-family: var(--sans);
+}
+.theme-toggle-btn:hover { transform: scale(1.08) rotate(30deg); box-shadow: 0 8px 36px rgba(0,0,0,0.3); }
+.theme-toggle-btn svg { width: 18px; height: 18px; pointer-events: none; }
+
+/* ── PANEL ── */
+.theme-panel {
+  position: fixed; bottom: 96px; right: 32px; z-index: 9996;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.06);
+  padding: 20px;
+  width: 360px;
+  border-radius: 18px;
+  opacity: 0; transform: translateY(10px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.theme-panel.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+
+/* ── HEADER ── */
+.theme-panel__title {
+  font-size: 0.58rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 3px; color: var(--grey-500);
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ── GRID ── */
+.theme-swatches {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+  max-height: 360px; overflow-y: auto;
+}
+.theme-swatches::-webkit-scrollbar { width: 3px; }
+.theme-swatches::-webkit-scrollbar-track { background: transparent; }
+.theme-swatches::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
+
+/* ── SWATCH ── */
+.theme-swatch {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: none;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-family: var(--sans);
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left; width: 100%;
+}
+.theme-swatch:hover { background: rgba(0,0,0,0.04); }
+.theme-swatch.active {
+  background: rgba(0,0,0,0.045);
+  border-color: rgba(0,0,0,0.1);
+}
+
+.theme-swatch__dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: transform 0.2s;
+}
+.theme-swatch:hover .theme-swatch__dot { transform: scale(1.12); }
+.theme-swatch.active .theme-swatch__dot { transform: scale(1.06); box-shadow: 0 0 0 2.5px var(--white), 0 0 0 4px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.18); }
+
+.theme-swatch__label {
+  font-size: 0.7rem; font-weight: 600;
+  color: var(--grey-700);
+  white-space: nowrap;
+}
+.theme-swatch.active .theme-swatch__label { color: var(--black); font-weight: 700; }
+
+/* ── TABS ── */
+.theme-tabs {
+  display: flex; gap: 3px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 9px; padding: 3px;
+  margin-bottom: 16px;
+}
+.theme-tab {
+  flex: 1; padding: 7px 0;
+  font-family: var(--sans);
+  font-size: 0.62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  border: none; background: none; cursor: pointer;
+  border-radius: 7px; color: var(--grey-500);
+  transition: background 0.2s, color 0.2s;
+}
+.theme-tab.active { background: var(--white); color: var(--black); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+.theme-content.hidden { display: none; }
+
+/* ── WHEEL ── */
+.wheel-wrap { display: flex; justify-content: center; margin-bottom: 14px; }
+#colorWheel { border-radius: 50%; cursor: crosshair; display: block; }
+
+/* ── CUSTOM PREVIEW ── */
+.custom-preview { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.custom-dot-wrap { display: flex; align-items: center; gap: 10px; }
+.custom-dot {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #1B3A4B;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.custom-hex {
+  font-family: var(--sans); font-size: 0.75rem; font-weight: 700;
+  color: var(--grey-700); letter-spacing: 1px;
+}
+.apply-custom-btn {
+  font-family: var(--sans);
+  font-size: 0.6rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  padding: 9px 16px;
+  background: var(--black); color: var(--white);
+  border: none; border-radius: 8px; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.apply-custom-btn:hover { background: var(--yellow); transform: translateY(-1px); }
+
+</style>
+
+<div class="theme-panel" id="themePanel">
+  <div class="theme-tabs">
+    <button class="theme-tab active" id="tabBtnPresets">Thèmes</button>
+    <button class="theme-tab" id="tabBtnCustom">Sur mesure</button>
+  </div>
+  <div class="theme-content" id="tabPresets">
+    <div class="theme-swatches" id="themeSwatches"></div>
+  </div>
+  <div class="theme-content hidden" id="tabCustom">
+    <div class="wheel-wrap">
+      <canvas id="colorWheel" width="220" height="220"></canvas>
+    </div>
+    <div class="custom-preview">
+      <div class="custom-dot-wrap">
+        <div id="customDot" class="custom-dot"></div>
+        <code id="customHex" class="custom-hex">#1B3A4B</code>
+      </div>
+      <button id="applyCustom" class="apply-custom-btn">Appliquer</button>
+    </div>
+  </div>
+</div>
+<button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Changer le thème">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+  </svg>
+</button>
+
+<script>
+(function() {
+  const panel = document.getElementById('themePanel');
+  const btn   = document.getElementById('themeToggleBtn');
+  const grid  = document.getElementById('themeSwatches');
+  const saved = localStorage.getItem('allday-theme') || 'marine';
+
+  ALLDAY_THEMES.forEach(t => {
+    const sw = document.createElement('button');
+    sw.className = 'theme-swatch' + (t.id === saved ? ' active' : '');
+    sw.dataset.id = t.id;
+    sw.innerHTML = `<div class="theme-swatch__dot" style="background:${t.color}"></div><span class="theme-swatch__label">${t.name}</span>`;
+    sw.addEventListener('click', () => alldayApplyTheme(t));
+    grid.appendChild(sw);
+  });
+
+  btn.addEventListener('click', () => panel.classList.toggle('open'));
+  document.addEventListener('click', e => {
+    if (!panel.contains(e.target) && !btn.contains(e.target)) panel.classList.remove('open');
+  });
+
+  // ── TABS ──
+  const tabBtnPresets = document.getElementById('tabBtnPresets');
+  const tabBtnCustom  = document.getElementById('tabBtnCustom');
+  const tabPresets    = document.getElementById('tabPresets');
+  const tabCustom     = document.getElementById('tabCustom');
+  let wheelDrawn = false;
+
+  function switchTab(tab) {
+    if (tab === 'presets') {
+      tabBtnPresets.classList.add('active');   tabBtnCustom.classList.remove('active');
+      tabPresets.classList.remove('hidden');   tabCustom.classList.add('hidden');
+    } else {
+      tabBtnCustom.classList.add('active');    tabBtnPresets.classList.remove('active');
+      tabCustom.classList.remove('hidden');    tabPresets.classList.add('hidden');
+      if (!wheelDrawn) { drawColorWheel(); wheelDrawn = true; }
+    }
+  }
+  tabBtnPresets.addEventListener('click', () => switchTab('presets'));
+  tabBtnCustom.addEventListener('click',  () => switchTab('custom'));
+
+  // ── COLOR UTILS ──
+  function hslToRgb(h, s, l) {
+    s /= 100; l /= 100;
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+    return [Math.round(f(0)*255), Math.round(f(8)*255), Math.round(f(4)*255)];
+  }
+  function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(v => v.toString(16).padStart(2,'0')).join('');
+  }
+  function hexToRgb(hex) {
+    return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)];
+  }
+  function rgbToHsl(r, g, b) {
+    r/=255; g/=255; b/=255;
+    const max=Math.max(r,g,b), min=Math.min(r,g,b);
+    let h, s, l=(max+min)/2;
+    if (max===min) { h=s=0; }
+    else {
+      const d=max-min;
+      s = l>.5 ? d/(2-max-min) : d/(max+min);
+      switch(max){
+        case r: h=((g-b)/d+(g<b?6:0))/6; break;
+        case g: h=((b-r)/d+2)/6; break;
+        default: h=((r-g)/d+4)/6;
+      }
+    }
+    return {h:h*360, s, l};
+  }
+
+  // ── COLOR WHEEL ──
+  let pickedHex = '#1B3A4B';
+
+  function drawColorWheel() {
+    const canvas = document.getElementById('colorWheel');
+    const ctx    = canvas.getContext('2d');
+    const size   = canvas.width;
+    const cx = size/2, cy = size/2;
+    const maxR = size/2 - 1;
+    const holeR = maxR * 0.16;
+    const img  = ctx.createImageData(size, size);
+    const data = img.data;
+
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        const dx = x-cx, dy = y-cy;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist > maxR || dist < holeR) continue;
+        const hue = ((Math.atan2(dy, dx) * 180 / Math.PI) + 360) % 360;
+        const t   = (dist - holeR) / (maxR - holeR);
+        const [r,g,b] = hslToRgb(hue, t*100, 50 + (1-t)*40);
+        const i = (y*size + x)*4;
+        data[i]=r; data[i+1]=g; data[i+2]=b; data[i+3]=255;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+
+    canvas.addEventListener('click', function(e) {
+      const rect = canvas.getBoundingClientRect();
+      const sx = size / rect.width, sy = size / rect.height;
+      const px = Math.round((e.clientX - rect.left) * sx);
+      const py = Math.round((e.clientY - rect.top)  * sy);
+      const px2 = Math.max(0, Math.min(size-1, px));
+      const py2 = Math.max(0, Math.min(size-1, py));
+      const pixel = ctx.getImageData(px2, py2, 1, 1).data;
+      if (pixel[3] === 0) return;
+      pickedHex = rgbToHex(pixel[0], pixel[1], pixel[2]);
+      document.getElementById('customDot').style.background = pickedHex;
+      document.getElementById('customHex').textContent = pickedHex.toUpperCase();
+    });
+  }
+
+  // ── APPLY CUSTOM ──
+  document.getElementById('applyCustom').addEventListener('click', function() {
+    const [r,g,b] = hexToRgb(pickedHex);
+    const {h, s, l} = rgbToHsl(r, g, b);
+    const toHex = (hue, sat, lig) => {
+      const [rr,gg,bb] = hslToRgb(hue, Math.max(0,Math.min(100,sat*100)), Math.max(5,Math.min(95,lig*100)));
+      return rgbToHex(rr,gg,bb);
+    };
+    const lum = 0.299*r/255 + 0.587*g/255 + 0.114*b/255;
+    const theme = {
+      id:'custom', name:'Sur mesure',
+      color: pickedHex,
+      light: toHex(h, s, l+0.15),
+      pale:  toHex(h, s*0.3, 0.93),
+      deep:  toHex(h, s, l-0.15),
+      onAccent: lum > 0.55 ? '#0F0F0F' : '#FFFFFF',
+      onMuted:  lum > 0.55 ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.75)',
+    };
+    alldayApplyTheme(theme);
+    document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+  });
+})();
+</script>
+
+</body>
+</html>

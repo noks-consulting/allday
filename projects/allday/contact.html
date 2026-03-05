@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contactez Allday — Réservez une visite de nos bureaux opérés à Paris. Réponse garantie en moins de 2 heures.">
+    <title>Contact — Allday | Réservez Votre Visite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        :root{--yellow:#1B3A4B;--yellow-light:#2A5570;--yellow-pale:#EAE3D8;--yellow-deep:#0F2535;--black:#0F0F0F;--black-soft:#1A1A1A;--dark:#2A2A2A;--grey-700:#444;--grey-500:#777;--grey-300:#BBB;--grey-100:#EDE5D8;--white:#FFFFFF;--sans:'Plus Jakarta Sans',-apple-system,sans-serif;--serif:'Playfair Display',Georgia,serif;--ease-out:cubic-bezier(0.23,1,0.32,1);--ease-power:cubic-bezier(0.16,1,0.3,1);--red:#E53935;--on-accent:#FFFFFF;--on-accent-muted:rgba(255,255,255,0.75)}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+        body{font-family:var(--sans);background:var(--white);color:var(--black);overflow-x:hidden;cursor:none}
+        ::selection{background:var(--yellow);color:var(--on-accent)}
+        img{display:block;max-width:100%}a{text-decoration:none;color:inherit}ul{list-style:none}
+        button{font-family:var(--sans);cursor:pointer;border:none;background:none}
+        .serif{font-family:var(--serif);font-style:italic}
+
+        /* CURSOR */
+        .cursor-dot{position:fixed;width:8px;height:8px;background:var(--yellow);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .35s var(--ease-power),height .35s var(--ease-power);mix-blend-mode:difference}
+        .cursor-ring{position:fixed;width:44px;height:44px;border:1.5px solid var(--yellow);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);opacity:.4;transition:width .45s var(--ease-power),height .45s var(--ease-power),opacity .3s}
+        .cursor-dot.active{width:52px;height:52px;background:color-mix(in srgb, var(--yellow) 15%, transparent)}
+        .cursor-ring.active{width:68px;height:68px;opacity:.2}
+
+        /* NAV */
+        nav{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 5%;z-index:9000;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.04)}
+        .logo{font-weight:800;font-size:1.35rem;letter-spacing:-1px}.logo span{color:var(--yellow)}
+        .nav-links{display:flex;gap:36px}
+        .nav-links a{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;opacity:.45;position:relative;transition:opacity .4s}
+        .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--yellow);transition:width .4s var(--ease-power)}
+        .nav-links a:hover{opacity:1}.nav-links a:hover::after{width:100%}
+        .nav-links a.active{opacity:1}.nav-links a.active::after{width:100%}
+        .btn-nav{font-weight:800;font-size:.68rem;text-transform:uppercase;letter-spacing:1.5px;padding:11px 24px;border:1.5px solid var(--black);transition:all .5s var(--ease-power);position:relative;overflow:hidden}
+        .btn-nav::before{content:'';position:absolute;inset:0;background:var(--yellow);transform:translateY(101%);transition:transform .5s var(--ease-power);z-index:-1}
+        .btn-nav:hover{border-color:var(--yellow)}.btn-nav:hover::before{transform:translateY(0)}
+
+        /* ═══════ HERO — Compact ═══════ */
+        .hero{position:relative;padding:160px 5% 72px;background:var(--black);overflow:hidden}
+        .hero__pattern{position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+        .hero__inner{max-width:1000px;margin:0 auto;position:relative;z-index:2}
+        .hero__eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--yellow);margin-bottom:24px;opacity:0}
+        .hero__eyebrow::before{content:'';width:28px;height:1.5px;background:var(--yellow)}
+        .hero__title{font-size:clamp(2.4rem,5vw,4.2rem);font-weight:800;text-transform:uppercase;letter-spacing:-.03em;line-height:.93;color:var(--white);margin-bottom:20px}
+        .hero__title .line{display:block;overflow:hidden}
+        .hero__title .line-inner{display:block;transform:translateY(110%)}
+        .hero__title .serif{text-transform:none}
+        .hero__desc{font-size:1rem;font-weight:300;color:var(--grey-300);line-height:1.75;max-width:520px;opacity:0}
+        .hero__desc strong{font-weight:600;color:var(--yellow)}
+
+        /* ═══════ PROMISE BAR ═══════ */
+        .promise{background:var(--yellow);padding:0 5%}
+        .promise__inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+        .promise__item{padding:24px 32px;display:flex;align-items:center;gap:14px;border-right:1px solid rgba(0,0,0,.08)}
+        .promise__item:last-child{border-right:none}
+        .promise__icon{width:36px;height:36px;background:rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .promise__icon svg{width:16px;height:16px;color:var(--black)}
+        .promise__text{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--black);line-height:1.3}
+
+        /* ═══════ MAIN CONTACT — Split layout ═══════ */
+        .contact{padding:80px 5% 120px;background:var(--white)}
+        .contact__inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:start}
+
+        /* LEFT — Form */
+        .contact__form-side{}
+        .contact__form-header{margin-bottom:40px}
+        .contact__form-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--grey-500);margin-bottom:16px}
+        .contact__form-eyebrow::before{content:'';width:20px;height:1.5px;background:var(--yellow)}
+        .contact__form-title{font-size:clamp(1.4rem,2.2vw,1.8rem);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:8px}
+        .contact__form-title .serif{text-transform:none}
+        .contact__form-subtitle{font-size:.85rem;font-weight:300;color:var(--grey-500);line-height:1.7}
+
+        .form{display:flex;flex-direction:column;gap:20px}
+        .form__row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .form__group{display:flex;flex-direction:column;gap:6px}
+        .form__label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--grey-500)}
+        .form__label span{color:var(--yellow)}
+        .form__input,.form__select,.form__textarea{font-family:var(--sans);font-size:.85rem;font-weight:400;color:var(--black);padding:14px 16px;border:1.5px solid var(--grey-100);background:var(--white);outline:none;transition:border-color .3s,box-shadow .3s}
+        .form__input:focus,.form__select:focus,.form__textarea:focus{border-color:var(--yellow);box-shadow:0 0 0 3px var(--yellow-pale)}
+        .form__input::placeholder,.form__textarea::placeholder{color:var(--grey-300);font-weight:300}
+        .form__input.error,.form__select.error,.form__textarea.error{border-color:var(--red)}
+        .form__select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23999' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+        .form__textarea{resize:vertical;min-height:120px}
+
+        /* Type selector — styled radio cards */
+        .form__type-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+        .form__type-option{position:relative}
+        .form__type-option input{position:absolute;opacity:0;pointer-events:none}
+        .form__type-option label{display:flex;align-items:center;gap:10px;padding:14px 16px;border:1.5px solid var(--grey-100);cursor:pointer;transition:all .3s var(--ease-power);font-size:.78rem;font-weight:500}
+        .form__type-option label:hover{border-color:var(--grey-300)}
+        .form__type-option input:checked+label{border-color:var(--yellow);background:var(--yellow-pale);font-weight:700}
+        .form__type-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .form__type-icon svg{width:16px;height:16px;color:var(--grey-500)}
+        .form__type-option input:checked+label .form__type-icon svg{color:var(--yellow-deep)}
+
+        /* Budget slider */
+        .form__budget{display:flex;flex-direction:column;gap:8px}
+        .form__budget-labels{display:flex;justify-content:space-between}
+        .form__budget-value{font-size:.85rem;font-weight:700;color:var(--black)}
+        .form__range{-webkit-appearance:none;width:100%;height:4px;background:var(--grey-100);outline:none;border:none}
+        .form__range::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--yellow);border-radius:50%;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:transform .2s}
+        .form__range::-webkit-slider-thumb:hover{transform:scale(1.2)}
+        .form__range::-moz-range-thumb{width:20px;height:20px;background:var(--yellow);border-radius:50%;cursor:pointer;border:none}
+
+        .form__submit{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:1.5px;padding:18px 44px;background:var(--black);color:var(--white);cursor:pointer;transition:all .5s var(--ease-power);position:relative;overflow:hidden;align-self:flex-start;margin-top:8px}
+        .form__submit::before{content:'';position:absolute;inset:0;background:var(--yellow);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease-power);z-index:0}
+        .form__submit span{position:relative;z-index:1;transition:color .4s}
+        .form__submit svg{position:relative;z-index:1;width:14px;height:14px;transition:transform .4s var(--ease-power)}
+        .form__submit:hover::before{transform:scaleX(1)}
+        .form__submit:hover span{color:var(--on-accent)}
+        .form__submit:hover svg{transform:translateX(3px);color:var(--black)}
+
+        /* Success state */
+        .form__success{display:none;padding:48px;text-align:center}
+        .form__success.show{display:block}
+        .form__success-icon{width:64px;height:64px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+        .form__success-icon svg{width:28px;height:28px;color:var(--black)}
+        .form__success-title{font-size:1.2rem;font-weight:800;text-transform:uppercase;margin-bottom:8px}
+        .form__success-text{font-size:.88rem;font-weight:300;color:var(--grey-500);line-height:1.7}
+
+        /* RIGHT — Info sidebar */
+        .contact__info-side{position:sticky;top:120px}
+        .contact__info-card{background:var(--grey-100);padding:40px 36px;margin-bottom:24px}
+        .contact__info-card-title{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+        .contact__info-card-title::before{content:'';width:12px;height:3px;background:var(--yellow)}
+
+        .contact__info-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+        .contact__info-item:last-child{margin-bottom:0}
+        .contact__info-icon{width:36px;height:36px;background:var(--white);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(0,0,0,.04)}
+        .contact__info-icon svg{width:15px;height:15px;color:var(--yellow-deep)}
+        .contact__info-label{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--grey-500);margin-bottom:2px}
+        .contact__info-value{font-size:.88rem;font-weight:500;color:var(--black);line-height:1.4}
+        .contact__info-value a{color:var(--black);border-bottom:1px solid var(--yellow);transition:border-color .3s}
+        .contact__info-value a:hover{border-color:var(--black)}
+
+        /* Addresses card */
+        .contact__addresses{}
+        .contact__address{padding:16px 0;border-bottom:1px solid rgba(0,0,0,.04)}
+        .contact__address:last-child{border-bottom:none}
+        .contact__address-name{font-size:.78rem;font-weight:700;color:var(--black);margin-bottom:3px}
+        .contact__address-text{font-size:.72rem;font-weight:400;color:var(--grey-500);line-height:1.5}
+        .contact__address-badge{display:inline-block;font-size:.5rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;background:var(--yellow-pale);color:var(--yellow-deep);margin-top:4px}
+
+        /* Hours card */
+        .contact__hours{}
+        .contact__hours-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.04);font-size:.78rem}
+        .contact__hours-row:last-child{border-bottom:none}
+        .contact__hours-day{font-weight:600;color:var(--black)}
+        .contact__hours-time{font-weight:400;color:var(--grey-500)}
+        .contact__hours-row.now .contact__hours-day{color:var(--yellow-deep)}
+        .contact__hours-row.now .contact__hours-time{color:var(--yellow-deep);font-weight:700}
+        .contact__hours-row.now::before{content:'';width:6px;height:6px;background:var(--yellow);border-radius:50%;align-self:center;margin-right:8px;animation:pulse 2s ease-in-out infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+        /* Map embed */
+        .map{padding:0;background:var(--grey-100);height:400px;position:relative;overflow:hidden}
+        .map__inner{max-width:100%;height:100%}
+        .map iframe{width:100%;height:100%;border:none;filter:grayscale(60%) contrast(1.1);transition:filter .6s}
+        .map:hover iframe{filter:grayscale(0)}
+        .map__overlay{position:absolute;top:20px;left:20px;background:var(--white);padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,.08);z-index:2}
+        .map__overlay-title{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+        .map__overlay-text{font-size:.68rem;font-weight:400;color:var(--grey-500)}
+
+        /* ═══════ FOOTER ═══════ */
+        footer{background:var(--black);padding:60px 5% 40px}
+        .footer__top{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.06)}
+        .footer__brand{font-weight:800;font-size:1.35rem;letter-spacing:-1px;color:var(--white);margin-bottom:16px}.footer__brand span{color:var(--yellow)}
+        .footer__tagline{font-size:.85rem;font-weight:300;color:var(--grey-500);line-height:1.7;max-width:260px}
+        .footer__col-title{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--yellow);margin-bottom:20px}
+        .footer__links li{margin-bottom:10px}
+        .footer__links a{font-size:.8rem;font-weight:400;color:var(--grey-500);transition:color .3s}.footer__links a:hover{color:var(--white)}
+        .footer__bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px}
+        .footer__copy{font-size:.68rem;color:rgba(255,255,255,.2)}
+        .footer__legal{display:flex;gap:20px}
+        .footer__legal a{font-size:.68rem;color:rgba(255,255,255,.2);transition:color .3s}.footer__legal a:hover{color:var(--grey-500)}
+        .reveal{opacity:0;transform:translateY(40px)}
+
+        @media(max-width:1024px){
+            .contact__inner{grid-template-columns:1fr;gap:48px}
+            .contact__info-side{position:static}
+            .promise__inner{grid-template-columns:1fr}.promise__item{border-right:none;border-bottom:1px solid rgba(0,0,0,.08)}.promise__item:last-child{border-bottom:none}
+            .footer__top{grid-template-columns:1fr 1fr;gap:32px}
+        }
+        @media(max-width:768px){
+            .nav-links{display:none}nav{padding:16px 5%}
+            .hero{padding:120px 5% 56px}
+            .form__row{grid-template-columns:1fr}
+            .form__type-grid{grid-template-columns:1fr}
+            .contact{padding:60px 5% 80px}
+            .map{height:300px}
+            .footer__top{grid-template-columns:1fr}.footer__bottom{flex-direction:column;gap:12px;text-align:center}
+            .cursor-dot,.cursor-ring{display:none}body{cursor:auto}
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
+
+    <header><nav role="navigation" aria-label="Navigation principale">
+        <a href="AccueilV3.html" class="logo">ALL<span>DAY</span></a>
+        <ul class="nav-links">
+            <li><a href="AccueilV3.html">Accueil</a></li>
+            <li><a href="nos-espaces.html">Nos Espaces</a></li>
+            <li><a href="Nos%20services.html">Nos Services</a></li>
+            <li><a href="Notre%20equipe.html">Notre Équipe</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn-nav">Contactez-nous</a>
+    </nav></header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero__pattern" aria-hidden="true"></div>
+        <div class="hero__inner">
+            <p class="hero__eyebrow">Contact</p>
+            <h1 class="hero__title">
+                <span class="line"><span class="line-inner">Parlons de</span></span>
+                <span class="line"><span class="line-inner">votre <span class="serif">projet.</span></span></span>
+            </h1>
+            <p class="hero__desc">Décrivez votre besoin, notre équipe revient vers vous <strong>sous 2 heures</strong> avec une proposition personnalisée.</p>
+        </div>
+    </section>
+
+    <!-- PROMISE BAR -->
+    <section class="promise" aria-label="Nos engagements">
+        <div class="promise__inner">
+            <div class="promise__item">
+                <div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <span class="promise__text">Réponse sous 2 heures</span>
+            </div>
+            <div class="promise__item">
+                <div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                <span class="promise__text">Visite possible sous 48h</span>
+            </div>
+            <div class="promise__item">
+                <div class="promise__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <span class="promise__text">Sans engagement</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTACT -->
+    <section class="contact" aria-label="Formulaire de contact">
+        <div class="contact__inner">
+
+            <!-- LEFT: Form -->
+            <div class="contact__form-side reveal">
+                <div class="contact__form-header">
+                    <p class="contact__form-eyebrow">Votre projet</p>
+                    <h2 class="contact__form-title">Dites-nous <span class="serif">tout.</span></h2>
+                    <p class="contact__form-subtitle">Plus vous êtes précis, plus notre proposition sera pertinente.</p>
+                </div>
+
+                <div class="form" id="contactForm">
+                    <!-- Row 1: Name + Company -->
+                    <div class="form__row">
+                        <div class="form__group">
+                            <label class="form__label">Nom complet <span>*</span></label>
+                            <input type="text" class="form__input" id="fname" placeholder="Jean Dupont" required>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Entreprise <span>*</span></label>
+                            <input type="text" class="form__input" id="fcompany" placeholder="Votre entreprise">
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Email + Phone -->
+                    <div class="form__row">
+                        <div class="form__group">
+                            <label class="form__label">Email <span>*</span></label>
+                            <input type="email" class="form__input" id="femail" placeholder="jean@entreprise.com" required>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Téléphone</label>
+                            <input type="tel" class="form__input" id="fphone" placeholder="+33 6 12 34 56 78">
+                        </div>
+                    </div>
+
+                    <!-- Type of space -->
+                    <div class="form__group">
+                        <label class="form__label">Type d'espace recherché <span>*</span></label>
+                        <div class="form__type-grid">
+                            <div class="form__type-option">
+                                <input type="radio" name="spacetype" id="type_private" value="Bureau Privatif">
+                                <label for="type_private"><span class="form__type-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h6"/></svg></span>Bureau Privatif</label>
+                            </div>
+                            <div class="form__type-option">
+                                <input type="radio" name="spacetype" id="type_team" value="Espace Équipe">
+                                <label for="type_team"><span class="form__type-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Espace Équipe</label>
+                            </div>
+                            <div class="form__type-option">
+                                <input type="radio" name="spacetype" id="type_hq" value="Siège Social">
+                                <label for="type_hq"><span class="form__type-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Siège Social</label>
+                            </div>
+                            <div class="form__type-option">
+                                <input type="radio" name="spacetype" id="type_meeting" value="Salle de Réunion">
+                                <label for="type_meeting"><span class="form__type-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>Salle de Réunion</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Headcount -->
+                    <div class="form__row">
+                        <div class="form__group">
+                            <label class="form__label">Nombre de postes</label>
+                            <select class="form__select" id="fheadcount">
+                                <option value="">Sélectionnez</option>
+                                <option>1 – 5 postes</option>
+                                <option>6 – 15 postes</option>
+                                <option>16 – 30 postes</option>
+                                <option>31 – 50 postes</option>
+                                <option>50+ postes</option>
+                            </select>
+                        </div>
+                        <div class="form__group">
+                            <label class="form__label">Arrondissement souhaité</label>
+                            <select class="form__select" id="fdistrict">
+                                <option value="">Peu importe</option>
+                                <option>Paris 2e — Sentier / Opéra</option>
+                                <option>Paris 3e — Marais / Archives</option>
+                                <option>Paris 8e — Haussmann / Champs</option>
+                                <option>Paris 9e — Victoire / Pigalle</option>
+                                <option>Paris 16e — Étoile / Trocadéro</option>
+                                <option>Paris 17e — Monceau / Ternes</option>
+                                <option>Autre / Flexible</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Budget -->
+                    <div class="form__group">
+                        <label class="form__label">Budget mensuel estimé</label>
+                        <div class="form__budget">
+                            <div class="form__budget-labels">
+                                <span class="form__budget-value" id="budgetVal">2 500 €/mois</span>
+                            </div>
+                            <input type="range" class="form__range" id="fbudget" min="500" max="25000" step="500" value="2500">
+                            <div class="form__budget-labels" style="opacity:.4">
+                                <span style="font-size:.6rem;color:var(--grey-500)">500 €</span>
+                                <span style="font-size:.6rem;color:var(--grey-500)">25 000 €+</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="form__group">
+                        <label class="form__label">Votre message</label>
+                        <textarea class="form__textarea" id="fmessage" placeholder="Décrivez votre projet, vos contraintes, vos envies. Plus vous nous en dites, mieux on vous conseille."></textarea>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="button" class="form__submit" id="submitBtn">
+                        <span>Envoyer ma demande</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+
+                <!-- Success state -->
+                <div class="form__success" id="formSuccess">
+                    <div class="form__success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <h3 class="form__success-title">Demande envoyée !</h3>
+                    <p class="form__success-text">Merci pour votre intérêt. Un membre de l'équipe vous recontacte sous 2 heures maximum. En attendant, vous pouvez explorer nos espaces.</p>
+                </div>
+            </div>
+
+            <!-- RIGHT: Info -->
+            <div class="contact__info-side reveal">
+                <!-- Direct contact -->
+                <div class="contact__info-card">
+                    <h3 class="contact__info-card-title">Contact direct</h3>
+                    <div class="contact__info-item">
+                        <div class="contact__info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                        <div><div class="contact__info-label">Téléphone</div><div class="contact__info-value"><a href="tel:+33142563478">01 42 56 34 78</a></div></div>
+                    </div>
+                    <div class="contact__info-item">
+                        <div class="contact__info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                        <div><div class="contact__info-label">Email</div><div class="contact__info-value"><a href="mailto:bonjour@allday.fr">bonjour@allday.fr</a></div></div>
+                    </div>
+                    <div class="contact__info-item">
+                        <div class="contact__info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+                        <div><div class="contact__info-label">WhatsApp</div><div class="contact__info-value"><a href="https://wa.me/33612345678">+33 6 12 34 56 78</a></div></div>
+                    </div>
+                </div>
+
+                <!-- Addresses -->
+                <div class="contact__info-card">
+                    <h3 class="contact__info-card-title">Nos adresses</h3>
+                    <div class="contact__addresses">
+                        <div class="contact__address">
+                            <div class="contact__address-name">Le Cercle Étoile</div>
+                            <div class="contact__address-text">28 avenue de la Grande Armée, 75016 Paris</div>
+                            <span class="contact__address-badge">Siège social</span>
+                        </div>
+                        <div class="contact__address">
+                            <div class="contact__address-name">Haussmann Classic</div>
+                            <div class="contact__address-text">54 boulevard Haussmann, 75008 Paris</div>
+                            <span class="contact__address-badge">Espace équipe</span>
+                        </div>
+                        <div class="contact__address">
+                            <div class="contact__address-name">Le Loft Archives</div>
+                            <div class="contact__address-text">17 rue des Archives, 75003 Paris</div>
+                            <span class="contact__address-badge">Espace équipe</span>
+                        </div>
+                        <div class="contact__address">
+                            <div class="contact__address-name">L'Atelier Victoire</div>
+                            <div class="contact__address-text">12 rue de la Victoire, 75009 Paris</div>
+                            <span class="contact__address-badge">Bureau privatif</span>
+                        </div>
+                        <div class="contact__address">
+                            <div class="contact__address-name">Le Studio Sentier</div>
+                            <div class="contact__address-text">8 rue du Sentier, 75002 Paris</div>
+                            <span class="contact__address-badge">Espace équipe</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hours -->
+                <div class="contact__info-card">
+                    <h3 class="contact__info-card-title">Horaires</h3>
+                    <div class="contact__hours" id="hoursGrid">
+                        <div class="contact__hours-row" data-day="1"><span class="contact__hours-day">Lundi</span><span class="contact__hours-time">9h – 19h</span></div>
+                        <div class="contact__hours-row" data-day="2"><span class="contact__hours-day">Mardi</span><span class="contact__hours-time">9h – 19h</span></div>
+                        <div class="contact__hours-row" data-day="3"><span class="contact__hours-day">Mercredi</span><span class="contact__hours-time">9h – 19h</span></div>
+                        <div class="contact__hours-row" data-day="4"><span class="contact__hours-day">Jeudi</span><span class="contact__hours-time">9h – 19h</span></div>
+                        <div class="contact__hours-row" data-day="5"><span class="contact__hours-day">Vendredi</span><span class="contact__hours-time">9h – 18h</span></div>
+                        <div class="contact__hours-row" data-day="6"><span class="contact__hours-day">Samedi</span><span class="contact__hours-time">Sur RDV</span></div>
+                        <div class="contact__hours-row" data-day="0"><span class="contact__hours-day">Dimanche</span><span class="contact__hours-time">Fermé</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MAP -->
+    <section class="map" aria-label="Localisation">
+        <div class="map__overlay">
+            <div class="map__overlay-title">Siège — Le Cercle Étoile</div>
+            <div class="map__overlay-text">28 avenue de la Grande Armée, Paris 16e</div>
+        </div>
+        <div class="map__inner">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.2!2d2.2866!3d48.8747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDjCsDUyJzI5LjAiTiAywrAxNycxMi4wIkU!5e0!3m2!1sfr!2sfr!4v1" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Carte Allday Paris"></iframe>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+        <div class="footer__top">
+            <div><div class="footer__brand">ALL<span>DAY</span></div><p class="footer__tagline">L'immobilier haute-couture pour ceux qui n'ont pas le temps de faire des compromis.</p></div>
+            <div><h4 class="footer__col-title">Espaces</h4><ul class="footer__links"><li><a href="#">Bureau Privatif</a></li><li><a href="#">Espace Équipe</a></li><li><a href="#">Siège Social</a></li><li><a href="#">Salle de Réunion</a></li></ul></div>
+            <div><h4 class="footer__col-title">Expérience</h4><ul class="footer__links"><li><a href="#">Conciergerie</a></li><li><a href="#">Technologie</a></li><li><a href="#">Club Privé</a></li><li><a href="#">Événements</a></li></ul></div>
+            <div><h4 class="footer__col-title">Allday</h4><ul class="footer__links"><li><a href="#">Notre Vision</a></li><li><a href="#">L'Équipe</a></li><li><a href="#">Presse</a></li><li><a href="#">Carrières</a></li></ul></div>
+        </div>
+        <div class="footer__bottom"><span class="footer__copy">&copy; 2026 Allday.</span><div class="footer__legal"><a href="#">Mentions Légales</a><a href="#">Confidentialité</a></div></div>
+    </footer>
+
+    <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* CURSOR */
+    const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+    (function f(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(f)})();
+    document.querySelectorAll('a,button,input,select,textarea,.form__type-option label,.contact__info-card').forEach(el=>{
+        el.addEventListener('mouseenter',()=>{dot.classList.add('active');ring.classList.add('active')});
+        el.addEventListener('mouseleave',()=>{dot.classList.remove('active');ring.classList.remove('active')});
+    });
+
+    /* HERO ANIM */
+    const heroTL=gsap.timeline({defaults:{ease:'power4.out'},delay:.3});
+    heroTL
+        .to('.hero__eyebrow',{opacity:1,duration:.6})
+        .to('.hero__title .line-inner',{y:0,duration:1.2,stagger:.08},'-=.3')
+        .to('.hero__desc',{opacity:1,duration:.7},'-=.4');
+
+    /* REVEALS */
+    window.addEventListener('load',()=>{
+        gsap.utils.toArray('.reveal').forEach(el=>{
+            gsap.to(el,{scrollTrigger:{trigger:el,start:'top 88%'},opacity:1,y:0,duration:.85,ease:'power3.out'});
+        });
+        ScrollTrigger.refresh();
+    });
+
+    /* BUDGET SLIDER */
+    const budgetSlider=document.getElementById('fbudget');
+    const budgetVal=document.getElementById('budgetVal');
+    function updateBudget(){
+        const v=parseInt(budgetSlider.value);
+        budgetVal.textContent=v>=25000?'25 000 €+ /mois':v.toLocaleString('fr-FR')+' €/mois';
+        const pct=((v-500)/(25000-500))*100;
+        budgetSlider.style.background='linear-gradient(to right,var(--yellow) 0%,var(--yellow) '+pct+'%,var(--grey-100) '+pct+'%,var(--grey-100) 100%)';
+    }
+    budgetSlider.addEventListener('input',updateBudget);
+    updateBudget();
+
+    /* HIGHLIGHT CURRENT DAY */
+    const today=new Date().getDay();
+    document.querySelectorAll('.contact__hours-row').forEach(row=>{
+        if(parseInt(row.dataset.day)===today)row.classList.add('now');
+    });
+
+    /* FORM "SUBMIT" */
+    document.getElementById('submitBtn').addEventListener('click',()=>{
+        const name=document.getElementById('fname').value.trim();
+        const email=document.getElementById('femail').value.trim();
+        let valid=true;
+
+        document.querySelectorAll('.form__input,.form__select,.form__textarea').forEach(i=>i.classList.remove('error'));
+
+        if(!name){document.getElementById('fname').classList.add('error');valid=false}
+        if(!email||!email.includes('@')){document.getElementById('femail').classList.add('error');valid=false}
+
+        if(!valid){
+            gsap.to('.form',{x:-8,duration:.06,yoyo:true,repeat:5});
+            return;
+        }
+
+        document.getElementById('contactForm').style.display='none';
+        document.querySelector('.contact__form-header').style.display='none';
+        const success=document.getElementById('formSuccess');
+        success.classList.add('show');
+        gsap.from(success,{scale:.9,opacity:0,duration:.6,ease:'back.out(1.7)'});
+    });
+
+    /* Input focus label color */
+    document.querySelectorAll('.form__input,.form__select,.form__textarea').forEach(input=>{
+        input.addEventListener('focus',()=>{
+            const label=input.closest('.form__group')?.querySelector('.form__label');
+            if(label)label.style.color='var(--yellow-deep)';
+        });
+        input.addEventListener('blur',()=>{
+            const label=input.closest('.form__group')?.querySelector('.form__label');
+            if(label)label.style.color='';
+        });
+    });
+    </script>
+
+<!-- THEME SYSTEM -->
+<script>
+const ALLDAY_THEMES = [
+  { id:'marine',     name:'Marine',      color:'#1B3A4B', light:'#2A5570', pale:'#EAE3D8', deep:'#0F2535', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'original',   name:'Original',    color:'#FFC800', light:'#FFD740', pale:'#FFF3CC', deep:'#E6B400', onAccent:'#0F0F0F', onMuted:'rgba(0,0,0,0.55)' },
+  { id:'emeraude',   name:'Émeraude',    color:'#00A878', light:'#00C490', pale:'#E6F7F2', deep:'#007A58', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'terracotta', name:'Terracotta',  color:'#C8714A', light:'#D4896A', pale:'#FAF0EB', deep:'#A05535', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'prune',      name:'Prune',       color:'#7B2D8B', light:'#9B40AB', pale:'#F4E8F7', deep:'#5A1E68', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'or',         name:'Or pâle',     color:'#BFA980', light:'#D4C09A', pale:'#F7F3ED', deep:'#8A7A5E', onAccent:'#0F0F0F', onMuted:'rgba(0,0,0,0.55)' },
+  { id:'coral',      name:'Corail',      color:'#E8614A', light:'#F07A66', pale:'#FDF0ED', deep:'#C04030', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'acier',      name:'Bleu acier',  color:'#4A6FA5', light:'#6A8FBF', pale:'#EEF3F9', deep:'#2A4F85', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'sauge',      name:'Sauge',       color:'#4A7C59', light:'#5E9B6F', pale:'#EAF4EE', deep:'#2D5C3A', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'graphite',   name:'Graphite',    color:'#555555', light:'#777777', pale:'#F0F0F0', deep:'#333333', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'bordeaux',  name:'Bordeaux',    color:'#722F37', light:'#8E3D47', pale:'#F5E8EA', deep:'#551E25', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'indigo',    name:'Indigo',      color:'#3730A3', light:'#4F46C0', pale:'#EEF2FF', deep:'#1E1B75', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'ocre',      name:'Ocre',        color:'#C9813A', light:'#DE9A52', pale:'#FBF3E8', deep:'#9D5E22', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'rose',      name:'Rose poudré', color:'#B5687A', light:'#CC8090', pale:'#F9EEF1', deep:'#8E4A5E', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'lavande',   name:'Lavande',     color:'#7B68BE', light:'#9487CC', pale:'#F0EEF9', deep:'#5C4D90', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'ciel',      name:'Ciel',        color:'#1A7FAA', light:'#2E9EC8', pale:'#E5F4FA', deep:'#0D5E80', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'foret',     name:'Forêt',       color:'#2D6A4F', light:'#3D8964', pale:'#E8F4EE', deep:'#1A4832', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'sable',     name:'Sable',       color:'#B8935A', light:'#CFB07A', pale:'#F7F2E8', deep:'#8A6A38', onAccent:'#0F0F0F', onMuted:'rgba(0,0,0,0.55)' },
+  { id:'nuit',      name:'Nuit',        color:'#0F1C3F', light:'#1E2E5A', pale:'#E8ECF5', deep:'#070E25', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+  { id:'rubis',     name:'Rubis',       color:'#B92B43', light:'#D04060', pale:'#FDEAED', deep:'#8A1A2E', onAccent:'#FFFFFF', onMuted:'rgba(255,255,255,0.75)' },
+];
+
+function alldayApplyTheme(theme) {
+  const r = document.documentElement;
+  r.style.setProperty('--yellow',        theme.color);
+  r.style.setProperty('--yellow-light',  theme.light);
+  r.style.setProperty('--yellow-pale',   theme.pale);
+  r.style.setProperty('--yellow-deep',   theme.deep);
+  r.style.setProperty('--on-accent',     theme.onAccent);
+  r.style.setProperty('--on-accent-muted', theme.onMuted);
+  localStorage.setItem('allday-theme', theme.id);
+  document.querySelectorAll('.theme-swatch').forEach(s => {
+    s.classList.toggle('active', s.dataset.id === theme.id);
+  });
+}
+
+// Load saved theme immediately
+(function(){
+  const saved = localStorage.getItem('allday-theme');
+  if (saved) {
+    const t = ALLDAY_THEMES.find(x => x.id === saved);
+    if (t) {
+      const r = document.documentElement;
+      r.style.setProperty('--yellow',          t.color);
+      r.style.setProperty('--yellow-light',    t.light);
+      r.style.setProperty('--yellow-pale',     t.pale);
+      r.style.setProperty('--yellow-deep',     t.deep);
+      r.style.setProperty('--on-accent',       t.onAccent);
+      r.style.setProperty('--on-accent-muted', t.onMuted);
+    }
+  }
+})();
+</script>
+
+<style>
+/* ── TOGGLE BUTTON ── */
+.theme-toggle-btn {
+  position: fixed; bottom: 32px; right: 32px; z-index: 9997;
+  width: 52px; height: 52px;
+  background: var(--black); color: var(--white);
+  border: 2.5px solid var(--yellow);
+  border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.22);
+  transition: transform 0.3s var(--ease-power), box-shadow 0.3s, border-color 0.4s;
+  font-family: var(--sans);
+}
+.theme-toggle-btn:hover { transform: scale(1.08) rotate(30deg); box-shadow: 0 8px 36px rgba(0,0,0,0.3); }
+.theme-toggle-btn svg { width: 18px; height: 18px; pointer-events: none; }
+
+/* ── PANEL ── */
+.theme-panel {
+  position: fixed; bottom: 96px; right: 32px; z-index: 9996;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.06);
+  padding: 20px;
+  width: 360px;
+  border-radius: 18px;
+  opacity: 0; transform: translateY(10px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.theme-panel.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+
+/* ── HEADER ── */
+.theme-panel__title {
+  font-size: 0.58rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 3px; color: var(--grey-500);
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ── GRID ── */
+.theme-swatches {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+  max-height: 360px; overflow-y: auto;
+}
+.theme-swatches::-webkit-scrollbar { width: 3px; }
+.theme-swatches::-webkit-scrollbar-track { background: transparent; }
+.theme-swatches::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
+
+/* ── SWATCH ── */
+.theme-swatch {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: none;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-family: var(--sans);
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left; width: 100%;
+}
+.theme-swatch:hover { background: rgba(0,0,0,0.04); }
+.theme-swatch.active {
+  background: rgba(0,0,0,0.045);
+  border-color: rgba(0,0,0,0.1);
+}
+
+.theme-swatch__dot {
+  width: 24px; height: 24px; border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: transform 0.2s;
+}
+.theme-swatch:hover .theme-swatch__dot { transform: scale(1.12); }
+.theme-swatch.active .theme-swatch__dot { transform: scale(1.06); box-shadow: 0 0 0 2.5px var(--white), 0 0 0 4px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.18); }
+
+.theme-swatch__label {
+  font-size: 0.7rem; font-weight: 600;
+  color: var(--grey-700);
+  white-space: nowrap;
+}
+.theme-swatch.active .theme-swatch__label { color: var(--black); font-weight: 700; }
+
+/* ── TABS ── */
+.theme-tabs {
+  display: flex; gap: 3px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 9px; padding: 3px;
+  margin-bottom: 16px;
+}
+.theme-tab {
+  flex: 1; padding: 7px 0;
+  font-family: var(--sans);
+  font-size: 0.62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  border: none; background: none; cursor: pointer;
+  border-radius: 7px; color: var(--grey-500);
+  transition: background 0.2s, color 0.2s;
+}
+.theme-tab.active { background: var(--white); color: var(--black); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+.theme-content.hidden { display: none; }
+
+/* ── WHEEL ── */
+.wheel-wrap { display: flex; justify-content: center; margin-bottom: 14px; }
+#colorWheel { border-radius: 50%; cursor: crosshair; display: block; }
+
+/* ── CUSTOM PREVIEW ── */
+.custom-preview { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.custom-dot-wrap { display: flex; align-items: center; gap: 10px; }
+.custom-dot {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #1B3A4B;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.custom-hex {
+  font-family: var(--sans); font-size: 0.75rem; font-weight: 700;
+  color: var(--grey-700); letter-spacing: 1px;
+}
+.apply-custom-btn {
+  font-family: var(--sans);
+  font-size: 0.6rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  padding: 9px 16px;
+  background: var(--black); color: var(--white);
+  border: none; border-radius: 8px; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.apply-custom-btn:hover { background: var(--yellow); transform: translateY(-1px); }
+
+</style>
+
+<div class="theme-panel" id="themePanel">
+  <div class="theme-tabs">
+    <button class="theme-tab active" id="tabBtnPresets">Thèmes</button>
+    <button class="theme-tab" id="tabBtnCustom">Sur mesure</button>
+  </div>
+  <div class="theme-content" id="tabPresets">
+    <div class="theme-swatches" id="themeSwatches"></div>
+  </div>
+  <div class="theme-content hidden" id="tabCustom">
+    <div class="wheel-wrap">
+      <canvas id="colorWheel" width="220" height="220"></canvas>
+    </div>
+    <div class="custom-preview">
+      <div class="custom-dot-wrap">
+        <div id="customDot" class="custom-dot"></div>
+        <code id="customHex" class="custom-hex">#1B3A4B</code>
+      </div>
+      <button id="applyCustom" class="apply-custom-btn">Appliquer</button>
+    </div>
+  </div>
+</div>
+<button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Changer le thème">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+  </svg>
+</button>
+
+<script>
+(function() {
+  const panel = document.getElementById('themePanel');
+  const btn   = document.getElementById('themeToggleBtn');
+  const grid  = document.getElementById('themeSwatches');
+  const saved = localStorage.getItem('allday-theme') || 'marine';
+
+  ALLDAY_THEMES.forEach(t => {
+    const sw = document.createElement('button');
+    sw.className = 'theme-swatch' + (t.id === saved ? ' active' : '');
+    sw.dataset.id = t.id;
+    sw.innerHTML = `<div class="theme-swatch__dot" style="background:${t.color}"></div><span class="theme-swatch__label">${t.name}</span>`;
+    sw.addEventListener('click', () => alldayApplyTheme(t));
+    grid.appendChild(sw);
+  });
+
+  btn.addEventListener('click', () => panel.classList.toggle('open'));
+  document.addEventListener('click', e => {
+    if (!panel.contains(e.target) && !btn.contains(e.target)) panel.classList.remove('open');
+  });
+
+  // ── TABS ──
+  const tabBtnPresets = document.getElementById('tabBtnPresets');
+  const tabBtnCustom  = document.getElementById('tabBtnCustom');
+  const tabPresets    = document.getElementById('tabPresets');
+  const tabCustom     = document.getElementById('tabCustom');
+  let wheelDrawn = false;
+
+  function switchTab(tab) {
+    if (tab === 'presets') {
+      tabBtnPresets.classList.add('active');   tabBtnCustom.classList.remove('active');
+      tabPresets.classList.remove('hidden');   tabCustom.classList.add('hidden');
+    } else {
+      tabBtnCustom.classList.add('active');    tabBtnPresets.classList.remove('active');
+      tabCustom.classList.remove('hidden');    tabPresets.classList.add('hidden');
+      if (!wheelDrawn) { drawColorWheel(); wheelDrawn = true; }
+    }
+  }
+  tabBtnPresets.addEventListener('click', () => switchTab('presets'));
+  tabBtnCustom.addEventListener('click',  () => switchTab('custom'));
+
+  // ── COLOR UTILS ──
+  function hslToRgb(h, s, l) {
+    s /= 100; l /= 100;
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+    return [Math.round(f(0)*255), Math.round(f(8)*255), Math.round(f(4)*255)];
+  }
+  function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(v => v.toString(16).padStart(2,'0')).join('');
+  }
+  function hexToRgb(hex) {
+    return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)];
+  }
+  function rgbToHsl(r, g, b) {
+    r/=255; g/=255; b/=255;
+    const max=Math.max(r,g,b), min=Math.min(r,g,b);
+    let h, s, l=(max+min)/2;
+    if (max===min) { h=s=0; }
+    else {
+      const d=max-min;
+      s = l>.5 ? d/(2-max-min) : d/(max+min);
+      switch(max){
+        case r: h=((g-b)/d+(g<b?6:0))/6; break;
+        case g: h=((b-r)/d+2)/6; break;
+        default: h=((r-g)/d+4)/6;
+      }
+    }
+    return {h:h*360, s, l};
+  }
+
+  // ── COLOR WHEEL ──
+  let pickedHex = '#1B3A4B';
+
+  function drawColorWheel() {
+    const canvas = document.getElementById('colorWheel');
+    const ctx    = canvas.getContext('2d');
+    const size   = canvas.width;
+    const cx = size/2, cy = size/2;
+    const maxR = size/2 - 1;
+    const holeR = maxR * 0.16;
+    const img  = ctx.createImageData(size, size);
+    const data = img.data;
+
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        const dx = x-cx, dy = y-cy;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist > maxR || dist < holeR) continue;
+        const hue = ((Math.atan2(dy, dx) * 180 / Math.PI) + 360) % 360;
+        const t   = (dist - holeR) / (maxR - holeR);
+        const [r,g,b] = hslToRgb(hue, t*100, 50 + (1-t)*40);
+        const i = (y*size + x)*4;
+        data[i]=r; data[i+1]=g; data[i+2]=b; data[i+3]=255;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+
+    canvas.addEventListener('click', function(e) {
+      const rect = canvas.getBoundingClientRect();
+      const sx = size / rect.width, sy = size / rect.height;
+      const px = Math.round((e.clientX - rect.left) * sx);
+      const py = Math.round((e.clientY - rect.top)  * sy);
+      const px2 = Math.max(0, Math.min(size-1, px));
+      const py2 = Math.max(0, Math.min(size-1, py));
+      const pixel = ctx.getImageData(px2, py2, 1, 1).data;
+      if (pixel[3] === 0) return;
+      pickedHex = rgbToHex(pixel[0], pixel[1], pixel[2]);
+      document.getElementById('customDot').style.background = pickedHex;
+      document.getElementById('customHex').textContent = pickedHex.toUpperCase();
+    });
+  }
+
+  // ── APPLY CUSTOM ──
+  document.getElementById('applyCustom').addEventListener('click', function() {
+    const [r,g,b] = hexToRgb(pickedHex);
+    const {h, s, l} = rgbToHsl(r, g, b);
+    const toHex = (hue, sat, lig) => {
+      const [rr,gg,bb] = hslToRgb(hue, Math.max(0,Math.min(100,sat*100)), Math.max(5,Math.min(95,lig*100)));
+      return rgbToHex(rr,gg,bb);
+    };
+    const lum = 0.299*r/255 + 0.587*g/255 + 0.114*b/255;
+    const theme = {
+      id:'custom', name:'Sur mesure',
+      color: pickedHex,
+      light: toHex(h, s, l+0.15),
+      pale:  toHex(h, s*0.3, 0.93),
+      deep:  toHex(h, s, l-0.15),
+      onAccent: lum > 0.55 ? '#0F0F0F' : '#FFFFFF',
+      onMuted:  lum > 0.55 ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.75)',
+    };
+    alldayApplyTheme(theme);
+    document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+  });
+})();
+</script>
+
+</body>
+</html>
